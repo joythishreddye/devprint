@@ -1,4 +1,5 @@
 export { compareTechnologies, calculateCategoryScores } from './compare-technologies';
+export { generateComparisonSummary } from './summary';
 export {
   scoreLearningCurve,
   scoreCommunitySize,

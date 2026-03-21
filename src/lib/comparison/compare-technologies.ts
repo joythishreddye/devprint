@@ -69,12 +69,16 @@ function determineWinner(scoreA: number, scoreB: number): 'A' | 'B' | 'tie' {
   return 'tie';
 }
 
-export function compareTechnologies(techA: Technology, techB: Technology): ComparisonResult {
+export function calculateCategoryScores(
+  techA: Technology,
+  techB: Technology
+): CategoryScore[] {
   const categories = Object.keys(CATEGORY_WEIGHTS) as ComparisonCategory[];
+  return categories.map((category) => calculateCategoryScore(techA, techB, category));
+}
 
-  const categoryScores = categories.map((category) =>
-    calculateCategoryScore(techA, techB, category)
-  );
+export function compareTechnologies(techA: Technology, techB: Technology): ComparisonResult {
+  const categoryScores = calculateCategoryScores(techA, techB);
 
   const overallScoreA = calculateOverallScore(categoryScores, 'A');
   const overallScoreB = calculateOverallScore(categoryScores, 'B');

@@ -1,0 +1,96 @@
+export type UserRole = 'developer' | 'contributor' | 'admin';
+export type ContributionStatus = 'pending' | 'approved' | 'rejected';
+
+export interface Technology {
+  id: string;
+  name: string;
+  slug: string;
+  category: string;
+  description: string;
+  logo_url: string | null;
+  website_url: string | null;
+  github_url: string | null;
+  npm_package: string | null;
+  github_stars: number | null;
+  npm_weekly_downloads: number | null;
+  pros: string[];
+  cons: string[];
+  best_for: string[];
+  learning_curve: 'beginner' | 'intermediate' | 'advanced';
+  community_size: 'small' | 'medium' | 'large';
+  maturity: 'emerging' | 'growing' | 'mature' | 'declining';
+  metadata: Record<string, unknown>;
+  created_at: string;
+  updated_at: string;
+}
+
+export interface Comparison {
+  id: string;
+  tech_a_id: string;
+  tech_b_id: string;
+  comparison_data: Record<string, unknown>;
+  created_at: string;
+}
+
+export interface UserProfile {
+  id: string;
+  display_name: string;
+  role: UserRole;
+  avatar_url: string | null;
+  created_at: string;
+  updated_at: string;
+}
+
+export interface ProjectPlan {
+  id: string;
+  user_id: string;
+  name: string;
+  description: string | null;
+  selections: Record<string, unknown>;
+  config_data: Record<string, unknown>;
+  created_at: string;
+  updated_at: string;
+}
+
+export interface Contribution {
+  id: string;
+  contributor_id: string;
+  technology_data: Record<string, unknown>;
+  status: ContributionStatus;
+  reviewer_id: string | null;
+  review_notes: string | null;
+  created_at: string;
+  updated_at: string;
+}
+
+export interface Database {
+  public: {
+    Tables: {
+      technologies: {
+        Row: Technology;
+        Insert: Omit<Technology, 'id' | 'created_at' | 'updated_at'>;
+        Update: Partial<Omit<Technology, 'id' | 'created_at' | 'updated_at'>>;
+      };
+      comparisons: {
+        Row: Comparison;
+        Insert: Omit<Comparison, 'id' | 'created_at'>;
+        Update: Partial<Omit<Comparison, 'id' | 'created_at'>>;
+      };
+      user_profiles: {
+        Row: UserProfile;
+        Insert: Omit<UserProfile, 'created_at' | 'updated_at'>;
+        Update: Partial<Omit<UserProfile, 'id' | 'created_at' | 'updated_at'>>;
+      };
+      project_plans: {
+        Row: ProjectPlan;
+        Insert: Omit<ProjectPlan, 'id' | 'created_at' | 'updated_at'>;
+        Update: Partial<Omit<ProjectPlan, 'id' | 'created_at' | 'updated_at'>>;
+      };
+      contributions: {
+        Row: Contribution;
+        Insert: Omit<Contribution, 'id' | 'created_at' | 'updated_at'>;
+        Update: Partial<Omit<Contribution, 'id' | 'created_at' | 'updated_at'>>;
+      };
+    };
+  };
+}

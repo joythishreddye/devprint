@@ -1,0 +1,69 @@
+{
+  "permissions": {
+    "allow": [
+      "Read",
+      "Write",
+      "Edit",
+      "Glob",
+      "Grep",
+      "Bash(npm run *)",
+      "Bash(npx vitest*)",
+      "Bash(npx playwright*)",
+      "Bash(npx tsc*)",
+      "Bash(npx next*)",
+      "Bash(git status*)",
+      "Bash(git log*)",
+      "Bash(git diff*)",
+      "Bash(git add*)",
+      "Bash(git commit*)",
+      "Bash(git branch*)",
+      "Bash(git checkout*)",
+      "Bash(git switch*)",
+      "Bash(git stash*)",
+      "Bash(git merge*)",
+      "Bash(ls*)",
+      "Bash(mkdir*)",
+      "Bash(wc*)",
+      "Bash(node*)",
+      "Bash(npm audit*)",
+      "Bash(npm list*)",
+      "Bash(gh *)"
+    ],
+    "deny": [
+      "Bash(rm -rf /)",
+      "Bash(rm -rf ~*)",
+      "Bash(git push --force*)",
+      "Bash(git reset --hard*)",
+      "Bash(git clean -f*)",
+      "Bash(curl*|sh)",
+      "Bash(wget*|sh)",
+      "Bash(eval *)"
+    ]
+  },
+  "hooks": {
+    "PostToolUse": [
+      {
+        "matcher": "Write|Edit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "file=\"$CLAUDE_FILE_PATH\"; if [[ \"$file\" == *.ts || \"$file\" == *.tsx ]]; then cd \"$(git rev-parse --show-toplevel 2>/dev/null || echo .)\" && npx tsc --noEmit --pretty 2>&1 | head -20; fi",
+            "timeout": 15000
+          }
+        ]
+      }
+    ],
+    "PreToolUse": [
+      {
+        "matcher": "Bash",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "if echo \"$CLAUDE_BASH_COMMAND\" | grep -qE '(rm -rf|git push --force|git reset --hard|git clean -f|DROP TABLE|TRUNCATE)'; then echo 'BLOCK: Destructive command detected. Please confirm with user first.' && exit 1; fi",
+            "timeout": 5000
+          }
+        ]
+      }
+    ]
+  }
+}

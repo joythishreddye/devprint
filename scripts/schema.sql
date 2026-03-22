@@ -179,3 +179,21 @@ create trigger project_plans_updated_at
 create trigger contributions_updated_at
   before update on contributions
   for each row execute function update_updated_at();
+
+-- Auto-create user_profiles row on sign-up
+create or replace function handle_new_user()
+returns trigger as $$
+begin
+  insert into public.user_profiles (id, display_name, role)
+  values (
+    new.id,
+    split_part(new.email, '@', 1),
+    'developer'
+  );
+  return new;
+end;
+$$ language plpgsql security definer;
+
+create trigger on_auth_user_created
+  after insert on auth.users
+  for each row execute function handle_new_user();

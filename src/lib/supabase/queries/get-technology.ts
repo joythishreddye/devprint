@@ -2,13 +2,13 @@ import { createServerClient } from '@/lib/supabase/server';
 import type { Technology } from '@/types/database';
 
 export async function getTechnologyBySlug(slug: string): Promise<Technology | null> {
-  const supabase = createServerClient();
+  const supabase = await createServerClient();
 
   const { data, error } = await supabase
     .from('technologies')
-    .select('*')
+    .select('id, name, slug, category, description, logo_url, website_url, github_url, npm_package, github_stars, npm_weekly_downloads, pros, cons, best_for, learning_curve, community_size, maturity, metadata, created_at, updated_at')
     .eq('slug', slug)
-    .single();
+    .maybeSingle();
 
   if (error) {
     console.error('Error fetching technology:', error);
@@ -19,12 +19,13 @@ export async function getTechnologyBySlug(slug: string): Promise<Technology | nu
 }
 
 export async function getAllTechnologies(): Promise<Technology[]> {
-  const supabase = createServerClient();
+  const supabase = await createServerClient();
 
   const { data, error } = await supabase
     .from('technologies')
-    .select('*')
-    .order('name');
+    .select('id, name, slug, category, description, logo_url, website_url, github_url, npm_package, github_stars, npm_weekly_downloads, pros, cons, best_for, learning_curve, community_size, maturity, metadata, created_at, updated_at')
+    .order('name')
+    .limit(100);
 
   if (error) {
     console.error('Error fetching technologies:', error);
@@ -35,13 +36,14 @@ export async function getAllTechnologies(): Promise<Technology[]> {
 }
 
 export async function getTechnologiesByCategory(category: string): Promise<Technology[]> {
-  const supabase = createServerClient();
+  const supabase = await createServerClient();
 
   const { data, error } = await supabase
     .from('technologies')
-    .select('*')
+    .select('id, name, slug, category, description, logo_url, website_url, github_url, npm_package, github_stars, npm_weekly_downloads, pros, cons, best_for, learning_curve, community_size, maturity, metadata, created_at, updated_at')
     .eq('category', category)
-    .order('name');
+    .order('name')
+    .limit(100);
 
   if (error) {
     console.error('Error fetching technologies by category:', error);

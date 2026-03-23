@@ -106,6 +106,16 @@ npm run lint              # ESLint
 
 ---
 
+## Context Management
+
+- Use `/compact` when context exceeds 90% — summarizes conversation to free up tokens
+- Use `--continue` to resume after session breaks — picks up where you left off
+- Delegate scoped tasks to subagents (code review, security scan) — keeps main context clean
+- Read only what you need — use `offset`/`limit` on large files instead of reading entire files
+- Keep MCP tools under 5 enabled at a time — each tool consumes context window
+
+---
+
 ## Subagents
 
 | Agent | When to Use |

@@ -1,0 +1,476 @@
+- generic [ref=e2]:
+  - region:
+    - generic:
+      - tooltip "This user has been invited to collaborate on the devprint repository."
+    - generic:
+      - tooltip "This user is the owner of the devprint repository."
+  - generic [ref=e3]:
+    - link "Skip to content" [ref=e4] [cursor=pointer]:
+      - /url: "#start-of-content"
+    - banner [ref=e6]:
+      - heading "Navigation Menu" [level=2] [ref=e7]
+      - generic [ref=e8]:
+        - link "Homepage" [ref=e10] [cursor=pointer]:
+          - /url: /
+          - img [ref=e11]
+        - generic [ref=e13]:
+          - navigation "Global" [ref=e16]:
+            - list [ref=e17]:
+              - listitem [ref=e18]:
+                - button "Platform" [ref=e20] [cursor=pointer]:
+                  - text: Platform
+                  - img [ref=e21]
+              - listitem [ref=e23]:
+                - button "Solutions" [ref=e25] [cursor=pointer]:
+                  - text: Solutions
+                  - img [ref=e26]
+              - listitem [ref=e28]:
+                - button "Resources" [ref=e30] [cursor=pointer]:
+                  - text: Resources
+                  - img [ref=e31]
+              - listitem [ref=e33]:
+                - button "Open Source" [ref=e35] [cursor=pointer]:
+                  - text: Open Source
+                  - img [ref=e36]
+              - listitem [ref=e38]:
+                - button "Enterprise" [ref=e40] [cursor=pointer]:
+                  - text: Enterprise
+                  - img [ref=e41]
+              - listitem [ref=e43]:
+                - link "Pricing" [ref=e44] [cursor=pointer]:
+                  - /url: https://github.com/pricing
+                  - generic [ref=e45]: Pricing
+          - generic [ref=e46]:
+            - button "Search or jump to…" [ref=e49] [cursor=pointer]:
+              - img [ref=e51]
+            - link "Sign in" [ref=e54] [cursor=pointer]:
+              - /url: /login?return_to=https%3A%2F%2Fgithub.com%2Fjoythishreddye%2Fdevprint%2Fissues%2F14
+            - link "Sign up" [ref=e55] [cursor=pointer]:
+              - /url: /signup?ref_cta=Sign+up&ref_loc=header+logged+out&ref_page=%2F%3Cuser-name%3E%2F%3Crepo-name%3E%2Fvoltron%2Fissues_fragments%2Fissue_layout&source=header-repo&source_repo=joythishreddye%2Fdevprint
+            - button "Appearance settings" [ref=e58] [cursor=pointer]:
+              - img
+  - main [ref=e62]:
+    - generic [ref=e63]:
+      - generic [ref=e64]:
+        - generic [ref=e66]:
+          - img [ref=e67]
+          - link "joythishreddye" [ref=e70] [cursor=pointer]:
+            - /url: /joythishreddye
+          - generic [ref=e71]: /
+          - strong [ref=e72]:
+            - link "devprint" [ref=e73] [cursor=pointer]:
+              - /url: /joythishreddye/devprint
+          - generic [ref=e74]: Public
+        - generic [ref=e75]:
+          - list:
+            - listitem [ref=e76]:
+              - link "You must be signed in to change notification settings" [ref=e77] [cursor=pointer]:
+                - /url: /login?return_to=%2Fjoythishreddye%2Fdevprint
+                - img [ref=e78]
+                - text: Notifications
+            - listitem [ref=e80]:
+              - link "Fork 0" [ref=e81] [cursor=pointer]:
+                - /url: /login?return_to=%2Fjoythishreddye%2Fdevprint
+                - img [ref=e82]
+                - text: Fork
+                - generic "0" [ref=e84]
+            - listitem [ref=e85]:
+              - link "You must be signed in to star a repository" [ref=e87] [cursor=pointer]:
+                - /url: /login?return_to=%2Fjoythishreddye%2Fdevprint
+                - img [ref=e88]
+                - text: Star
+                - generic "0 users starred this repository" [ref=e90]: "0"
+      - navigation "Repository" [ref=e91]:
+        - list [ref=e92]:
+          - listitem [ref=e93]:
+            - link "Code" [ref=e94] [cursor=pointer]:
+              - /url: /joythishreddye/devprint
+              - img [ref=e95]
+              - generic [ref=e97]: Code
+          - listitem [ref=e98]:
+            - link "Issues 23" [ref=e99] [cursor=pointer]:
+              - /url: /joythishreddye/devprint/issues
+              - img [ref=e100]
+              - generic [ref=e103]: Issues
+              - generic "23" [ref=e104]
+          - listitem [ref=e105]:
+            - link "Pull requests" [ref=e106] [cursor=pointer]:
+              - /url: /joythishreddye/devprint/pulls
+              - img [ref=e107]
+              - generic [ref=e109]: Pull requests
+          - listitem [ref=e110]:
+            - link "Actions" [ref=e111] [cursor=pointer]:
+              - /url: /joythishreddye/devprint/actions
+              - img [ref=e112]
+              - generic [ref=e114]: Actions
+          - listitem [ref=e115]:
+            - link "Projects" [ref=e116] [cursor=pointer]:
+              - /url: /joythishreddye/devprint/projects
+              - img [ref=e117]
+              - generic [ref=e119]: Projects
+          - listitem [ref=e120]:
+            - link "Security and quality" [ref=e121] [cursor=pointer]:
+              - /url: /joythishreddye/devprint/security
+              - img [ref=e122]
+              - generic [ref=e124]: Security and quality
+          - listitem [ref=e125]:
+            - link "Insights" [ref=e126] [cursor=pointer]:
+              - /url: /joythishreddye/devprint/pulse
+              - img [ref=e127]
+              - generic [ref=e129]: Insights
+    - generic [ref=e137]:
+      - region "Header" [ref=e139]:
+        - generic [ref=e140]:
+          - 'heading "Build config file generator with multi-tool export #14" [level=1] [ref=e142]'
+          - generic [ref=e144]:
+            - link "New issue" [ref=e146] [cursor=pointer]:
+              - /url: /login?return_to=https://github.com/joythishreddye/devprint/issues/14#issuecomment-4187214448
+              - generic [ref=e148]: New issue
+            - button "Copy link" [ref=e149] [cursor=pointer]:
+              - img [ref=e150]
+      - generic [ref=e158]:
+        - img "Issue" [ref=e159]
+        - text: Open
+      - generic [ref=e164]:
+        - generic [ref=e166]:
+          - img "Issue" [ref=e167]
+          - text: Open
+        - generic [ref=e171]:
+          - link "Build config file generator with multi-tool export" [ref=e172] [cursor=pointer]:
+            - /url: "#top"
+          - generic [ref=e173]: "#14"
+        - button "Copy link" [ref=e176] [cursor=pointer]:
+          - img [ref=e177]
+      - generic [ref=e181]:
+        - generic [ref=e182]:
+          - generic [ref=e184]:
+            - link "@joythishreddye's profile" [ref=e185] [cursor=pointer]:
+              - /url: https://github.com/joythishreddye
+              - img "@joythishreddye" [ref=e186]
+            - generic [ref=e187]:
+              - heading "Description" [level=2] [ref=e188]
+              - generic [ref=e190]:
+                - generic [ref=e192]:
+                  - generic [ref=e193]:
+                    - link "joythishreddye" [ref=e195] [cursor=pointer]:
+                      - /url: https://github.com/joythishreddye
+                    - generic [ref=e196]:
+                      - text: opened
+                      - link "on Mar 31, 20264 days ago" [ref=e197] [cursor=pointer]:
+                        - /url: https://github.com/joythishreddye/devprint/issues/14#issue-4180927800
+                        - generic "Mar 31, 2026, 12:16 PM CDT" [ref=e198]: on Mar 31, 20264 days ago
+                  - generic [ref=e200]:
+                    - generic "This user is the owner of the devprint repository." [ref=e202]: Owner
+                    - button "Issue body actions" [ref=e204] [cursor=pointer]:
+                      - img [ref=e205]
+                - generic [ref=e207]:
+                  - generic [ref=e209]:
+                    - heading "User Story" [level=2] [ref=e210]
+                    - paragraph [ref=e211]: As a developer who has finalized my tech stack, I want to generate configuration files for AI coding tools so that I can start building my project immediately with the right context.
+                    - heading "Acceptance Criteria" [level=2] [ref=e212]
+                    - list [ref=e213]:
+                      - listitem [ref=e214]:
+                        - generic [ref=e216]:
+                          - generic [ref=e222]:
+                            - 'checkbox "API route at `src/app/api/generate-config/route.ts` accepts project plan selections checklist item" [disabled] [ref=e223]'
+                            - generic [ref=e224]:
+                              - text: API route at
+                              - code [ref=e225]: src/app/api/generate-config/route.ts
+                              - text: accepts project plan selections
+                          - generic [ref=e232]:
+                            - 'checkbox "Generates `CLAUDE.md` format (Claude Code configuration) checklist item" [disabled] [ref=e233]'
+                            - generic [ref=e234]:
+                              - text: Generates
+                              - code [ref=e235]: CLAUDE.md
+                              - text: format (Claude Code configuration)
+                          - generic [ref=e242]:
+                            - checkbox "Generates Gemini CLI config format checklist item" [disabled] [ref=e243]
+                            - generic [ref=e244]: Generates Gemini CLI config format
+                          - generic [ref=e251]:
+                            - 'checkbox "Generates GitHub Copilot instructions format (`.github/copilot-instructions.md`) checklist item" [disabled] [ref=e252]'
+                            - generic [ref=e253]:
+                              - text: Generates GitHub Copilot instructions format (
+                              - code [ref=e254]: .github/copilot-instructions.md
+                              - text: )
+                          - generic [ref=e261]:
+                            - 'checkbox "Template engine in `src/lib/generators/` with technology-specific snippets checklist item" [disabled] [ref=e262]'
+                            - generic [ref=e263]:
+                              - text: Template engine in
+                              - code [ref=e264]: src/lib/generators/
+                              - text: with technology-specific snippets
+                          - generic [ref=e271]:
+                            - checkbox "Preview UI showing generated config before download checklist item" [disabled] [ref=e272]
+                            - generic [ref=e273]: Preview UI showing generated config before download
+                          - generic [ref=e280]:
+                            - checkbox "Download button for each format checklist item" [disabled] [ref=e281]
+                            - generic [ref=e282]: Download button for each format
+                          - generic [ref=e289]:
+                            - checkbox "Copy-to-clipboard functionality checklist item" [disabled] [ref=e290]
+                            - generic [ref=e291]: Copy-to-clipboard functionality
+                          - generic [ref=e298]:
+                            - checkbox "Input validated with Zod schema checklist item" [disabled] [ref=e299]
+                            - generic [ref=e300]: Input validated with Zod schema
+                        - status [ref=e302]
+                    - heading "Notes" [level=2] [ref=e303]
+                    - list [ref=e304]:
+                      - listitem [ref=e305]:
+                        - text: Parallel agent candidate — touches
+                        - code [ref=e306]: src/app/api/generate-config/
+                        - text: ","
+                        - code [ref=e307]: src/lib/generators/
+                        - text: ","
+                        - code [ref=e308]: src/components/config-preview/
+                      - listitem [ref=e309]: Templates are deterministic (no LLM calls) — fast and free
+                      - listitem [ref=e310]:
+                        - text: Depends on Issue
+                        - generic [ref=e311]:
+                          - img [ref=e312]
+                          - 'link "Build interactive project wizard with multi-step form #12" [ref=e315] [cursor=pointer]':
+                            - /url: https://github.com/joythishreddye/devprint/issues/12
+                        - text: (wizard produces the selections input)
+                  - generic:
+                    - toolbar "Reactions"
+          - generic [ref=e317]:
+            - generic [ref=e318]:
+              - heading "Activity" [level=2] [ref=e319]
+              - generic [ref=e320]:
+                - region "Events" [ref=e321]:
+                  - generic [ref=e328]:
+                    - img [ref=e331]
+                    - generic [ref=e335]:
+                      - link "joythishreddye" [ref=e337] [cursor=pointer]:
+                        - /url: /joythishreddye
+                        - generic [ref=e338]: joythishreddye
+                      - text: added
+                      - link "feature New user-facing functionality" [ref=e340] [cursor=pointer]:
+                        - /url: /joythishreddye/devprint/issues?q=state%3Aopen%20label%3A%22feature%22
+                        - generic [ref=e342]: feature
+                        - generic [ref=e343]: New user-facing functionality
+                      - 'link "priority: high Must complete this sprint" [ref=e345] [cursor=pointer]':
+                        - /url: /joythishreddye/devprint/issues?q=state%3Aopen%20label%3A%22priority%3A%20high%22
+                        - generic [ref=e347]: "priority: high"
+                        - generic [ref=e348]: Must complete this sprint
+                      - 'link "sprint 2 Sprint 2: Feature Completion (Mar 31-Apr 9)" [ref=e350] [cursor=pointer]':
+                        - /url: /joythishreddye/devprint/issues?q=state%3Aopen%20label%3A%22sprint%202%22
+                        - generic [ref=e352]: sprint 2
+                        - generic [ref=e353]: "Sprint 2: Feature Completion (Mar 31-Apr 9)"
+                      - link "on Mar 31, 20264 days ago" [ref=e354] [cursor=pointer]:
+                        - /url: https://github.com/joythishreddye/devprint/issues/14#event-24082802383
+                        - generic "Mar 31, 2026, 12:16 PM CDT" [ref=e355]: on Mar 31, 20264 days ago
+                  - generic [ref=e359]:
+                    - img [ref=e362]
+                    - generic [ref=e366]:
+                      - link "joythishreddye" [ref=e368] [cursor=pointer]:
+                        - /url: /joythishreddye
+                        - generic [ref=e369]: joythishreddye
+                      - text: added this to
+                      - generic [ref=e370]:
+                        - img [ref=e371]
+                        - link "DevPrint - Project 3" [ref=e373] [cursor=pointer]:
+                          - /url: https://github.com/users/joythishreddye/projects/1
+                      - link "on Mar 31, 20264 days ago" [ref=e374] [cursor=pointer]:
+                        - /url: https://github.com/joythishreddye/devprint/issues/14#event-24083896696
+                        - generic "Mar 31, 2026, 12:53 PM CDT" [ref=e375]: on Mar 31, 20264 days ago
+                  - generic [ref=e379]:
+                    - img [ref=e382]
+                    - generic [ref=e386]:
+                      - link "github-project-automation" [ref=e388] [cursor=pointer]:
+                        - /url: /apps/github-project-automation
+                        - generic [ref=e389]: github-project-automation
+                      - text: moved this to Todo in
+                      - generic [ref=e390]:
+                        - img [ref=e391]
+                        - link "DevPrint - Project 3" [ref=e393] [cursor=pointer]:
+                          - /url: https://github.com/users/joythishreddye/projects/1
+                      - link "on Mar 31, 20264 days ago" [ref=e394] [cursor=pointer]:
+                        - /url: https://github.com/joythishreddye/devprint/issues/14
+                        - generic "Mar 31, 2026, 12:53 PM CDT" [ref=e395]: on Mar 31, 20264 days ago
+                - generic [ref=e396]:
+                  - link "@khajjafar's profile" [ref=e397] [cursor=pointer]:
+                    - /url: https://github.com/khajjafar
+                    - img "khajjafar" [ref=e398]
+                  - generic [ref=e405]:
+                    - generic [ref=e407]:
+                      - heading "khajjafar commented on Apr 4, 2026 19 minutes ago" [level=3] [ref=e408]:
+                        - text: khajjafar commented
+                        - generic "Apr 4, 2026, 9:42 AM CDT" [ref=e409]: on Apr 4, 2026 19 minutes ago
+                      - generic [ref=e410]:
+                        - link "khajjafar" [ref=e412] [cursor=pointer]:
+                          - /url: /khajjafar
+                        - link "on Apr 4, 202619 minutes ago" [ref=e415] [cursor=pointer]:
+                          - /url: https://github.com/joythishreddye/devprint/issues/14#issuecomment-4187214448
+                          - generic "Apr 4, 2026, 9:42 AM CDT" [ref=e416]: on Apr 4, 202619 minutes ago
+                      - generic [ref=e418]:
+                        - generic "This user has been invited to collaborate on the devprint repository." [ref=e420]: Collaborator
+                        - button "Actions for khajjafar's comment, 9:42 AM today" [ref=e422] [cursor=pointer]:
+                          - img [ref=e423]
+                    - generic [ref=e425]:
+                      - generic [ref=e427]:
+                        - heading "Implementation Complete" [level=2] [ref=e428]
+                        - paragraph [ref=e429]:
+                          - strong [ref=e430]: Branch
+                          - text: ": `feat/config-generator`"
+                        - heading "What was built" [level=3] [ref=e431]
+                        - paragraph [ref=e432]: "A pure TypeScript config file generator in `src/lib/generators/` that produces deterministic (no LLM calls) configuration files in 3 formats — Claude Code (`CLAUDE.md`), Gemini CLI (`GEMINI.md`), and GitHub Copilot (`.github/copilot-instructions.md`) — from a `ProjectSelections` input. Built with strict TDD — tests written before implementation."
+                        - heading "Files added" [level=3] [ref=e433]
+                        - list [ref=e434]:
+                          - listitem [ref=e435]: "`src/types/generators.ts` — `ProjectSelections`, `GeneratedConfig`, `GenerateConfigResult`, `CONFIG_FORMAT`"
+                          - listitem [ref=e436]:
+                            - text: "`src/lib/generators/"
+                            - strong [ref=e437]: tests
+                            - text: "/generate-config.test.ts` — 33 tests covering all 3 formats, null inputs, and edge cases"
+                          - listitem [ref=e438]: "`src/lib/generators/generate-config.ts` — exports `generateClaudeConfig`, `generateGeminiConfig`, `generateCopilotConfig`, `generateAllConfigs`"
+                          - listitem [ref=e439]: "`src/lib/generators/index.ts` — barrel export"
+                        - heading "How to test" [level=3] [ref=e440]
+                        - paragraph [ref=e441]:
+                          - text: "```bash"
+                          - text: "npm run test # run all 33 tests"
+                          - text: "npm run test:coverage # view coverage report"
+                          - text: "```"
+                        - heading "Coverage" [level=3] [ref=e442]
+                        - table [ref=e444]:
+                          - rowgroup [ref=e445]:
+                            - row "Module Statements Branches Functions Lines" [ref=e446]:
+                              - columnheader "Module" [ref=e447]
+                              - columnheader "Statements" [ref=e448]
+                              - columnheader "Branches" [ref=e449]
+                              - columnheader "Functions" [ref=e450]
+                              - columnheader "Lines" [ref=e451]
+                          - rowgroup [ref=e452]:
+                            - 'row "`lib/generators` 100% 100% 100% 100%" [ref=e453]':
+                              - 'cell "`lib/generators`" [ref=e454]'
+                              - cell "100%" [ref=e455]
+                              - cell "100%" [ref=e456]
+                              - cell "100%" [ref=e457]
+                              - cell "100%" [ref=e458]
+                        - heading "How to review" [level=3] [ref=e459]
+                        - paragraph [ref=e460]:
+                          - text: "```bash"
+                          - text: git checkout feat/config-generator
+                          - text: git diff main...HEAD -- src/lib/generators/ src/types/generators.ts
+                          - text: "```"
+                        - heading "Commit history" [level=3] [ref=e461]
+                        - paragraph [ref=e462]:
+                          - text: "```"
+                          - text: "feat: add types for config generator"
+                          - text: "test: add failing tests for config generator"
+                          - text: "feat: implement config file generator"
+                          - text: "refactor: add barrel export for generators"
+                          - text: "```"
+                      - toolbar "Reactions"
+            - generic [ref=e463]:
+              - link "Sign up for free" [ref=e464] [cursor=pointer]:
+                - /url: /signup?return_to=https://github.com/joythishreddye/devprint/issues/14#issuecomment-4187214448
+                - generic [ref=e466]: Sign up for free
+              - generic [ref=e467]:
+                - strong [ref=e468]: to join this conversation on GitHub.
+                - text: Already have an account?
+              - link "Sign in to comment" [ref=e469] [cursor=pointer]:
+                - /url: /login?return_to=https://github.com/joythishreddye/devprint/issues/14#issuecomment-4187214448
+        - generic [ref=e471]:
+          - heading "Metadata" [level=2] [ref=e472]
+          - generic [ref=e474]:
+            - generic [ref=e476]:
+              - generic [ref=e477]:
+                - heading "Assignees" [level=3]
+              - generic [ref=e478]: No one assigned
+            - generic [ref=e479]:
+              - generic [ref=e481]:
+                - heading "Labels" [level=3]
+              - generic [ref=e483]:
+                - link "feature New user-facing functionality" [ref=e484] [cursor=pointer]:
+                  - /url: https://github.com/joythishreddye/devprint/issues?q=state%3Aopen%20label%3A%22feature%22
+                  - generic [ref=e486]: feature
+                  - generic [ref=e487]: New user-facing functionality
+                - 'link "priority: high Must complete this sprint" [ref=e488] [cursor=pointer]':
+                  - /url: https://github.com/joythishreddye/devprint/issues?q=state%3Aopen%20label%3A%22priority%3A%20high%22
+                  - generic [ref=e490]: "priority: high"
+                  - generic [ref=e491]: Must complete this sprint
+                - 'link "sprint 2 Sprint 2: Feature Completion (Mar 31-Apr 9)" [ref=e492] [cursor=pointer]':
+                  - /url: https://github.com/joythishreddye/devprint/issues?q=state%3Aopen%20label%3A%22sprint%202%22
+                  - generic [ref=e494]: sprint 2
+                  - generic [ref=e495]: "Sprint 2: Feature Completion (Mar 31-Apr 9)"
+            - generic [ref=e496]:
+              - generic [ref=e498]:
+                - heading "Projects" [level=3]
+              - generic [ref=e502]:
+                - link "DevPrint - Project 3" [ref=e504] [cursor=pointer]:
+                  - /url: https://github.com/users/joythishreddye/projects/1
+                  - img [ref=e505]
+                  - generic "DevPrint - Project 3" [ref=e507]
+                - generic [ref=e508]:
+                  - generic [ref=e509]:
+                    - paragraph [ref=e510]: Status
+                    - generic [ref=e515]: Todo
+                  - button "Show more project fields" [ref=e516] [cursor=pointer]:
+                    - img [ref=e517]
+            - generic [ref=e520]:
+              - generic [ref=e521]:
+                - heading "Milestone" [level=3]
+              - generic [ref=e522]: No milestone
+            - generic [ref=e524]:
+              - generic [ref=e525]:
+                - heading "Relationships" [level=3]
+              - generic [ref=e526]: None yet
+            - generic [ref=e527]:
+              - generic [ref=e529]:
+                - heading "Development" [level=3]
+              - generic [ref=e530]:
+                - generic [ref=e532]:
+                  - button "Code with agent mode" [ref=e534] [cursor=pointer]:
+                    - generic [ref=e535]:
+                      - generic:
+                        - img
+                      - generic [ref=e536]: Code with agent mode
+                  - button "Select code repository" [ref=e539] [cursor=pointer]:
+                    - img [ref=e540]
+                - generic [ref=e542]: No branches or pull requests
+                - list
+            - generic [ref=e543]:
+              - generic [ref=e545]:
+                - heading "Participants" [level=3]
+              - generic [ref=e548]:
+                - link "@khajjafar" [ref=e549] [cursor=pointer]:
+                  - /url: /khajjafar
+                  - img "@khajjafar" [ref=e550]
+                - link "@joythishreddye" [ref=e551] [cursor=pointer]:
+                  - /url: /joythishreddye
+                  - img "@joythishreddye" [ref=e552]
+            - heading "Issue actions" [level=2] [ref=e553]
+            - list
+  - contentinfo [ref=e554]:
+    - heading "Footer" [level=2] [ref=e555]
+    - generic [ref=e556]:
+      - generic [ref=e557]:
+        - link "GitHub Homepage" [ref=e558] [cursor=pointer]:
+          - /url: https://github.com
+          - img [ref=e559]
+        - generic [ref=e561]: © 2026 GitHub, Inc.
+      - navigation "Footer" [ref=e562]:
+        - heading "Footer navigation" [level=3] [ref=e563]
+        - list "Footer navigation" [ref=e564]:
+          - listitem [ref=e565]:
+            - link "Terms" [ref=e566] [cursor=pointer]:
+              - /url: https://docs.github.com/site-policy/github-terms/github-terms-of-service
+          - listitem [ref=e567]:
+            - link "Privacy" [ref=e568] [cursor=pointer]:
+              - /url: https://docs.github.com/site-policy/privacy-policies/github-privacy-statement
+          - listitem [ref=e569]:
+            - link "Security" [ref=e570] [cursor=pointer]:
+              - /url: https://github.com/security
+          - listitem [ref=e571]:
+            - link "Status" [ref=e572] [cursor=pointer]:
+              - /url: https://www.githubstatus.com/
+          - listitem [ref=e573]:
+            - link "Community" [ref=e574] [cursor=pointer]:
+              - /url: https://github.community/
+          - listitem [ref=e575]:
+            - link "Docs" [ref=e576] [cursor=pointer]:
+              - /url: https://docs.github.com/
+          - listitem [ref=e577]:
+            - link "Contact" [ref=e578] [cursor=pointer]:
+              - /url: https://support.github.com?tags=dotcom-footer
+          - listitem [ref=e579]:
+            - button "Manage cookies" [ref=e581] [cursor=pointer]
+          - listitem [ref=e582]:
+            - button "Do not share my personal information" [ref=e584] [cursor=pointer]

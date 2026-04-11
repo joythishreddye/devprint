@@ -1,0 +1,216 @@
+- generic [ref=e2]:
+  - region
+  - generic [ref=e3]:
+    - link "Skip to content" [ref=e4] [cursor=pointer]:
+      - /url: "#start-of-content"
+    - banner [ref=e6]:
+      - heading "Navigation Menu" [level=2] [ref=e7]
+      - generic [ref=e8]:
+        - link "Homepage" [ref=e10] [cursor=pointer]:
+          - /url: /
+          - img [ref=e11]
+        - generic [ref=e13]:
+          - navigation "Global" [ref=e16]:
+            - list [ref=e17]:
+              - listitem [ref=e18]:
+                - button "Platform" [ref=e20] [cursor=pointer]:
+                  - text: Platform
+                  - img [ref=e21]
+              - listitem [ref=e23]:
+                - button "Solutions" [ref=e25] [cursor=pointer]:
+                  - text: Solutions
+                  - img [ref=e26]
+              - listitem [ref=e28]:
+                - button "Resources" [ref=e30] [cursor=pointer]:
+                  - text: Resources
+                  - img [ref=e31]
+              - listitem [ref=e33]:
+                - button "Open Source" [ref=e35] [cursor=pointer]:
+                  - text: Open Source
+                  - img [ref=e36]
+              - listitem [ref=e38]:
+                - button "Enterprise" [ref=e40] [cursor=pointer]:
+                  - text: Enterprise
+                  - img [ref=e41]
+              - listitem [ref=e43]:
+                - link "Pricing" [ref=e44] [cursor=pointer]:
+                  - /url: https://github.com/pricing
+                  - generic [ref=e45]: Pricing
+          - generic [ref=e46]:
+            - button "Search or jump to…" [ref=e49] [cursor=pointer]:
+              - img [ref=e51]
+            - link "Sign in" [ref=e54] [cursor=pointer]:
+              - /url: /login?return_to=https%3A%2F%2Fgithub.com%2Fjoythishreddye%2Fdevprint%2Fcompare
+            - link "Sign up" [ref=e55] [cursor=pointer]:
+              - /url: /signup?ref_cta=Sign+up&ref_loc=header+logged+out&ref_page=%2F%3Cuser-name%3E%2F%3Crepo-name%3E%2Fcompare%2Fnew&source=header-repo&source_repo=joythishreddye%2Fdevprint
+            - button "Appearance settings" [disabled] [ref=e58]:
+              - img
+  - main [ref=e62]:
+    - generic [ref=e63]:
+      - generic [ref=e64]:
+        - generic [ref=e66]:
+          - img [ref=e67]
+          - link "joythishreddye" [ref=e70] [cursor=pointer]:
+            - /url: /joythishreddye
+          - generic [ref=e71]: /
+          - strong [ref=e72]:
+            - link "devprint" [ref=e73] [cursor=pointer]:
+              - /url: /joythishreddye/devprint
+          - generic [ref=e74]: Public
+        - generic [ref=e75]:
+          - list:
+            - listitem [ref=e76]:
+              - link "You must be signed in to change notification settings" [ref=e77] [cursor=pointer]:
+                - /url: /login?return_to=%2Fjoythishreddye%2Fdevprint
+                - img [ref=e78]
+                - text: Notifications
+            - listitem [ref=e80]:
+              - link "Fork 0" [ref=e81] [cursor=pointer]:
+                - /url: /login?return_to=%2Fjoythishreddye%2Fdevprint
+                - img [ref=e82]
+                - text: Fork
+                - generic "0" [ref=e84]
+            - listitem [ref=e85]:
+              - link "You must be signed in to star a repository" [ref=e87] [cursor=pointer]:
+                - /url: /login?return_to=%2Fjoythishreddye%2Fdevprint
+                - img [ref=e88]
+                - text: Star
+                - generic "0 users starred this repository" [ref=e90]: "0"
+      - navigation "Repository" [ref=e91]:
+        - list [ref=e92]:
+          - listitem [ref=e93]:
+            - link "Code" [ref=e94] [cursor=pointer]:
+              - /url: /joythishreddye/devprint
+              - img [ref=e95]
+              - generic [ref=e97]: Code
+          - listitem [ref=e98]:
+            - link "Issues 23" [ref=e99] [cursor=pointer]:
+              - /url: /joythishreddye/devprint/issues
+              - img [ref=e100]
+              - generic [ref=e103]: Issues
+              - generic "23" [ref=e104]
+          - listitem [ref=e105]:
+            - link "Pull requests" [ref=e106] [cursor=pointer]:
+              - /url: /joythishreddye/devprint/pulls
+              - img [ref=e107]
+              - generic [ref=e109]: Pull requests
+          - listitem [ref=e110]:
+            - link "Actions" [ref=e111] [cursor=pointer]:
+              - /url: /joythishreddye/devprint/actions
+              - img [ref=e112]
+              - generic [ref=e114]: Actions
+          - listitem [ref=e115]:
+            - link "Projects" [ref=e116] [cursor=pointer]:
+              - /url: /joythishreddye/devprint/projects
+              - img [ref=e117]
+              - generic [ref=e119]: Projects
+          - listitem [ref=e120]:
+            - link "Security and quality" [ref=e121] [cursor=pointer]:
+              - /url: /joythishreddye/devprint/security
+              - img [ref=e122]
+              - generic [ref=e124]: Security and quality
+          - listitem [ref=e125]:
+            - link "Insights" [ref=e126] [cursor=pointer]:
+              - /url: /joythishreddye/devprint/pulse
+              - img [ref=e127]
+              - generic [ref=e129]: Insights
+    - generic [ref=e132]:
+      - generic [ref=e133]:
+        - heading "Compare changes" [level=1] [ref=e134]
+        - generic [ref=e135]:
+          - text: Compare changes across branches, commits, tags, and more below. If you need to, you can also
+          - button "compare across forks" [ref=e136] [cursor=pointer]
+          - text: .
+      - generic [ref=e137]:
+        - img [ref=e138]
+        - group [ref=e141]:
+          - 'generic "base: main" [ref=e142] [cursor=pointer]':
+            - generic [ref=e144]:
+              - text: "base:"
+              - generic [ref=e145]: main
+            - generic:
+              - img
+        - generic [ref=e147]:
+          - 'img "Three-dot diff: changes since branches diverged" [ref=e148]'
+          - generic [ref=e150]: ...
+        - group [ref=e152]:
+          - 'generic "compare: main" [ref=e153] [cursor=pointer]':
+            - generic [ref=e155]:
+              - text: "compare:"
+              - generic [ref=e156]: main
+            - generic:
+              - img
+      - generic [ref=e157]:
+        - generic [ref=e158]:
+          - text: Choose different branches or forks above to discuss and review changes.
+          - link "Learn about pull requests" [ref=e159] [cursor=pointer]:
+            - /url: https://docs.github.com/articles/using-pull-requests
+        - button "Create pull request" [disabled] [ref=e160]
+      - generic [ref=e161]:
+        - img [ref=e162]
+        - heading "Compare and review just about anything" [level=3] [ref=e166]
+        - paragraph [ref=e167]: Branches, tags, commit ranges, and time ranges. In the same repository and across forks.
+        - generic [ref=e168]:
+          - generic [ref=e169]: Example comparisons
+          - list [ref=e170]:
+            - listitem [ref=e171]:
+              - img [ref=e172]
+              - link "HW5" [ref=e174] [cursor=pointer]:
+                - /url: /joythishreddye/devprint/compare/main...HW5
+              - emphasis [ref=e175]: Mar 31, 20265 days ago
+            - listitem [ref=e176]:
+              - img [ref=e177]
+              - link "HW5-mcp" [ref=e179] [cursor=pointer]:
+                - /url: /joythishreddye/devprint/compare/main...HW5-mcp
+              - emphasis [ref=e180]: Mar 29, 2026last week
+            - listitem [ref=e181]:
+              - img [ref=e182]
+              - link "hw4" [ref=e184] [cursor=pointer]:
+                - /url: /joythishreddye/devprint/compare/main...hw4
+              - emphasis [ref=e185]: Mar 23, 20262 weeks ago
+            - listitem [ref=e186]:
+              - img [ref=e187]
+              - link "feat/tdd-comparison-engine" [ref=e189] [cursor=pointer]:
+                - /url: /joythishreddye/devprint/compare/main...feat/tdd-comparison-engine
+              - emphasis [ref=e190]: Mar 23, 20262 weeks ago
+            - listitem [ref=e191]:
+              - img [ref=e192]
+              - 'link "main@{1day}...main" [ref=e194] [cursor=pointer]':
+                - /url: /joythishreddye/devprint/compare/main%40%7B1day%7D...main
+              - emphasis [ref=e195]: 24 hours ago
+  - contentinfo [ref=e196]:
+    - heading "Footer" [level=2] [ref=e197]
+    - generic [ref=e198]:
+      - generic [ref=e199]:
+        - link "GitHub Homepage" [ref=e200] [cursor=pointer]:
+          - /url: https://github.com
+          - img [ref=e201]
+        - generic [ref=e203]: © 2026 GitHub, Inc.
+      - navigation "Footer" [ref=e204]:
+        - heading "Footer navigation" [level=3] [ref=e205]
+        - list "Footer navigation" [ref=e206]:
+          - listitem [ref=e207]:
+            - link "Terms" [ref=e208] [cursor=pointer]:
+              - /url: https://docs.github.com/site-policy/github-terms/github-terms-of-service
+          - listitem [ref=e209]:
+            - link "Privacy" [ref=e210] [cursor=pointer]:
+              - /url: https://docs.github.com/site-policy/privacy-policies/github-privacy-statement
+          - listitem [ref=e211]:
+            - link "Security" [ref=e212] [cursor=pointer]:
+              - /url: https://github.com/security
+          - listitem [ref=e213]:
+            - link "Status" [ref=e214] [cursor=pointer]:
+              - /url: https://www.githubstatus.com/
+          - listitem [ref=e215]:
+            - link "Community" [ref=e216] [cursor=pointer]:
+              - /url: https://github.community/
+          - listitem [ref=e217]:
+            - link "Docs" [ref=e218] [cursor=pointer]:
+              - /url: https://docs.github.com/
+          - listitem [ref=e219]:
+            - link "Contact" [ref=e220] [cursor=pointer]:
+              - /url: https://support.github.com?tags=dotcom-footer
+          - listitem [ref=e221]:
+            - button "Manage cookies" [ref=e223] [cursor=pointer]
+          - listitem [ref=e224]:
+            - button "Do not share my personal information" [ref=e226] [cursor=pointer]

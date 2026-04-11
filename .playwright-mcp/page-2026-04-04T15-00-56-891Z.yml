@@ -1,0 +1,483 @@
+- generic [ref=e2]:
+  - region:
+    - generic:
+      - tooltip "This user has been invited to collaborate on the devprint repository."
+    - generic:
+      - tooltip "This user is the owner of the devprint repository."
+  - generic [ref=e3]:
+    - link "Skip to content" [ref=e4] [cursor=pointer]:
+      - /url: "#start-of-content"
+    - banner [ref=e6]:
+      - heading "Navigation Menu" [level=2] [ref=e7]
+      - generic [ref=e8]:
+        - link "Homepage" [ref=e10] [cursor=pointer]:
+          - /url: /
+          - img [ref=e11]
+        - generic [ref=e13]:
+          - navigation "Global" [ref=e16]:
+            - list [ref=e17]:
+              - listitem [ref=e18]:
+                - button "Platform" [ref=e20] [cursor=pointer]:
+                  - text: Platform
+                  - img [ref=e21]
+              - listitem [ref=e23]:
+                - button "Solutions" [ref=e25] [cursor=pointer]:
+                  - text: Solutions
+                  - img [ref=e26]
+              - listitem [ref=e28]:
+                - button "Resources" [ref=e30] [cursor=pointer]:
+                  - text: Resources
+                  - img [ref=e31]
+              - listitem [ref=e33]:
+                - button "Open Source" [ref=e35] [cursor=pointer]:
+                  - text: Open Source
+                  - img [ref=e36]
+              - listitem [ref=e38]:
+                - button "Enterprise" [ref=e40] [cursor=pointer]:
+                  - text: Enterprise
+                  - img [ref=e41]
+              - listitem [ref=e43]:
+                - link "Pricing" [ref=e44] [cursor=pointer]:
+                  - /url: https://github.com/pricing
+                  - generic [ref=e45]: Pricing
+          - generic [ref=e46]:
+            - button "Search or jump to…" [ref=e49] [cursor=pointer]:
+              - img [ref=e51]
+            - link "Sign in" [ref=e54] [cursor=pointer]:
+              - /url: /login?return_to=https%3A%2F%2Fgithub.com%2Fjoythishreddye%2Fdevprint%2Fissues%2F6
+            - link "Sign up" [ref=e55] [cursor=pointer]:
+              - /url: /signup?ref_cta=Sign+up&ref_loc=header+logged+out&ref_page=%2F%3Cuser-name%3E%2F%3Crepo-name%3E%2Fvoltron%2Fissues_fragments%2Fissue_layout&source=header-repo&source_repo=joythishreddye%2Fdevprint
+            - button "Appearance settings" [disabled] [ref=e58]:
+              - img
+  - main [ref=e62]:
+    - generic [ref=e63]:
+      - generic [ref=e64]:
+        - generic [ref=e66]:
+          - img [ref=e67]
+          - link "joythishreddye" [ref=e70] [cursor=pointer]:
+            - /url: /joythishreddye
+          - generic [ref=e71]: /
+          - strong [ref=e72]:
+            - link "devprint" [ref=e73] [cursor=pointer]:
+              - /url: /joythishreddye/devprint
+          - generic [ref=e74]: Public
+        - generic [ref=e75]:
+          - list:
+            - listitem [ref=e76]:
+              - link "You must be signed in to change notification settings" [ref=e77] [cursor=pointer]:
+                - /url: /login?return_to=%2Fjoythishreddye%2Fdevprint
+                - img [ref=e78]
+                - text: Notifications
+            - listitem [ref=e80]:
+              - link "Fork 0" [ref=e81] [cursor=pointer]:
+                - /url: /login?return_to=%2Fjoythishreddye%2Fdevprint
+                - img [ref=e82]
+                - text: Fork
+                - generic "0" [ref=e84]
+            - listitem [ref=e85]:
+              - link "You must be signed in to star a repository" [ref=e87] [cursor=pointer]:
+                - /url: /login?return_to=%2Fjoythishreddye%2Fdevprint
+                - img [ref=e88]
+                - text: Star
+                - generic "0 users starred this repository" [ref=e90]: "0"
+      - navigation "Repository" [ref=e91]:
+        - list [ref=e92]:
+          - listitem [ref=e93]:
+            - link "Code" [ref=e94] [cursor=pointer]:
+              - /url: /joythishreddye/devprint
+              - img [ref=e95]
+              - generic [ref=e97]: Code
+          - listitem [ref=e98]:
+            - link "Issues 23" [ref=e99] [cursor=pointer]:
+              - /url: /joythishreddye/devprint/issues
+              - img [ref=e100]
+              - generic [ref=e103]: Issues
+              - generic "23" [ref=e104]
+          - listitem [ref=e105]:
+            - link "Pull requests" [ref=e106] [cursor=pointer]:
+              - /url: /joythishreddye/devprint/pulls
+              - img [ref=e107]
+              - generic [ref=e109]: Pull requests
+          - listitem [ref=e110]:
+            - link "Actions" [ref=e111] [cursor=pointer]:
+              - /url: /joythishreddye/devprint/actions
+              - img [ref=e112]
+              - generic [ref=e114]: Actions
+          - listitem [ref=e115]:
+            - link "Projects" [ref=e116] [cursor=pointer]:
+              - /url: /joythishreddye/devprint/projects
+              - img [ref=e117]
+              - generic [ref=e119]: Projects
+          - listitem [ref=e120]:
+            - link "Security and quality" [ref=e121] [cursor=pointer]:
+              - /url: /joythishreddye/devprint/security
+              - img [ref=e122]
+              - generic [ref=e124]: Security and quality
+          - listitem [ref=e125]:
+            - link "Insights" [ref=e126] [cursor=pointer]:
+              - /url: /joythishreddye/devprint/pulse
+              - img [ref=e127]
+              - generic [ref=e129]: Insights
+    - generic [ref=e137]:
+      - region "Header" [ref=e139]:
+        - generic [ref=e140]:
+          - 'heading "Build technology comparison engine with TDD #6" [level=1] [ref=e142]'
+          - generic [ref=e144]:
+            - button "New issue" [ref=e146] [cursor=pointer]:
+              - generic [ref=e148]: New issue
+            - button "Copy link" [ref=e149] [cursor=pointer]:
+              - img [ref=e150]
+      - generic [ref=e158]:
+        - img "Issue" [ref=e159]
+        - text: Open
+      - generic [ref=e163]:
+        - generic [ref=e164]:
+          - generic [ref=e166]:
+            - link "@joythishreddye's profile" [ref=e167] [cursor=pointer]:
+              - /url: https://github.com/joythishreddye
+              - img "@joythishreddye" [ref=e168]
+            - generic [ref=e169]:
+              - heading "Description" [level=2] [ref=e170]
+              - generic [ref=e172]:
+                - generic [ref=e174]:
+                  - generic [ref=e175]:
+                    - link "joythishreddye" [ref=e177] [cursor=pointer]:
+                      - /url: https://github.com/joythishreddye
+                    - generic [ref=e178]:
+                      - text: opened
+                      - link "on Mar 31, 20264 days ago" [ref=e179] [cursor=pointer]:
+                        - /url: https://github.com/joythishreddye/devprint/issues/6#issue-4180922312
+                        - generic "Mar 31, 2026, 12:15 PM CDT" [ref=e180]: on Mar 31, 20264 days ago
+                  - generic [ref=e182]:
+                    - generic "This user is the owner of the devprint repository." [ref=e184]: Owner
+                    - button "Issue body actions" [ref=e186] [cursor=pointer]:
+                      - img [ref=e187]
+                - generic [ref=e189]:
+                  - generic [ref=e191]:
+                    - heading "User Story" [level=2] [ref=e192]
+                    - paragraph [ref=e193]: As a developer comparing technologies, I want a comparison engine that scores and summarizes differences between two technologies so that I can make informed decisions.
+                    - heading "Acceptance Criteria" [level=2] [ref=e194]
+                    - list [ref=e195]:
+                      - listitem [ref=e196]:
+                        - generic [ref=e198]:
+                          - generic [ref=e204]:
+                            - 'checkbox "`compareTechnologies(techA, techB)` function returns structured comparison result checklist item" [disabled] [ref=e205]'
+                            - generic [ref=e206]:
+                              - code [ref=e207]: compareTechnologies(techA, techB)
+                              - text: function returns structured comparison result
+                          - generic [ref=e214]:
+                            - 'checkbox "`calculateCategoryScores(tech, categories)` with weighted normalization checklist item" [disabled] [ref=e215]'
+                            - generic [ref=e216]:
+                              - code [ref=e217]: calculateCategoryScores(tech, categories)
+                              - text: with weighted normalization
+                          - generic [ref=e224]:
+                            - 'checkbox "`generateComparisonSummary(comparisonResult)` produces human-readable pros/cons for each side checklist item" [disabled] [ref=e225]'
+                            - generic [ref=e226]:
+                              - code [ref=e227]: generateComparisonSummary(comparisonResult)
+                              - text: produces human-readable pros/cons for each side
+                          - generic [ref=e234]:
+                            - 'checkbox "Types extracted to `src/types/comparison.ts` (ComparisonResult, CategoryScore, CATEGORY_WEIGHTS) checklist item" [disabled] [ref=e235]'
+                            - generic [ref=e236]:
+                              - text: Types extracted to
+                              - code [ref=e237]: src/types/comparison.ts
+                              - text: (ComparisonResult, CategoryScore, CATEGORY_WEIGHTS)
+                          - generic [ref=e244]:
+                            - 'checkbox "Barrel export from `src/lib/comparison/index.ts` checklist item" [disabled] [ref=e245]'
+                            - generic [ref=e246]:
+                              - text: Barrel export from
+                              - code [ref=e247]: src/lib/comparison/index.ts
+                          - generic [ref=e254]:
+                            - checkbox "100% test coverage for all comparison functions checklist item" [disabled] [ref=e255]
+                            - generic [ref=e256]: 100% test coverage for all comparison functions
+                          - generic [ref=e263]:
+                            - checkbox "Git history shows strict red-green-refactor TDD pattern (9+ commits) checklist item" [disabled] [ref=e264]
+                            - generic [ref=e265]: Git history shows strict red-green-refactor TDD pattern (9+ commits)
+                        - status [ref=e267]
+                    - heading "Notes" [level=2] [ref=e268]
+                    - list [ref=e269]:
+                      - listitem [ref=e270]: This is the HW4 Part 3 (TDD) feature
+                      - listitem [ref=e271]:
+                        - text: Pure TypeScript with zero React/Next.js imports — lives in
+                        - code [ref=e272]: src/lib/comparison/
+                      - listitem [ref=e273]:
+                        - text: Tests in
+                        - code [ref=e274]: src/lib/comparison/__tests__/
+                      - listitem [ref=e275]:
+                        - text: "Commit pattern:"
+                        - code [ref=e276]: "test:"
+                        - text: →
+                        - code [ref=e277]: "feat:"
+                        - text: →
+                        - code [ref=e278]: "refactor:"
+                        - text: for each round
+                      - listitem [ref=e279]:
+                        - text: Depends on Issue
+                        - generic [ref=e280]:
+                          - img [ref=e281]
+                          - 'link "Set up project repository, folder structure, and base dependencies #3" [ref=e284] [cursor=pointer]':
+                            - /url: https://github.com/joythishreddye/devprint/issues/3
+                        - text: (types)
+                  - generic:
+                    - toolbar "Reactions"
+          - generic [ref=e286]:
+            - generic [ref=e287]:
+              - heading "Activity" [level=2] [ref=e288]
+              - generic [ref=e289]:
+                - region "Events" [ref=e290]:
+                  - generic [ref=e297]:
+                    - img [ref=e300]
+                    - generic [ref=e304]:
+                      - link "joythishreddye" [ref=e306] [cursor=pointer]:
+                        - /url: /joythishreddye
+                        - generic [ref=e307]: joythishreddye
+                      - text: added
+                      - link "feature New user-facing functionality" [ref=e309] [cursor=pointer]:
+                        - /url: /joythishreddye/devprint/issues?q=state%3Aopen%20label%3A%22feature%22
+                        - generic [ref=e311]: feature
+                        - generic [ref=e312]: New user-facing functionality
+                      - 'link "priority: high Must complete this sprint" [ref=e314] [cursor=pointer]':
+                        - /url: /joythishreddye/devprint/issues?q=state%3Aopen%20label%3A%22priority%3A%20high%22
+                        - generic [ref=e316]: "priority: high"
+                        - generic [ref=e317]: Must complete this sprint
+                      - 'link "sprint 1 Sprint 1: Foundation + Core (Mar 20-30)" [ref=e319] [cursor=pointer]':
+                        - /url: /joythishreddye/devprint/issues?q=state%3Aopen%20label%3A%22sprint%201%22
+                        - generic [ref=e321]: sprint 1
+                        - generic [ref=e322]: "Sprint 1: Foundation + Core (Mar 20-30)"
+                      - link "on Mar 31, 20264 days ago" [ref=e323] [cursor=pointer]:
+                        - /url: https://github.com/joythishreddye/devprint/issues/6#event-24082771568
+                        - generic "Mar 31, 2026, 12:15 PM CDT" [ref=e324]: on Mar 31, 20264 days ago
+                  - generic [ref=e331]:
+                    - img [ref=e334]
+                    - generic [ref=e336]:
+                      - generic [ref=e338]:
+                        - link "joythishreddye" [ref=e340] [cursor=pointer]:
+                          - /url: /joythishreddye
+                          - generic [ref=e341]: joythishreddye
+                        - text: mentioned this
+                        - link "on Mar 31, 20264 days ago" [ref=e342] [cursor=pointer]:
+                          - /url: https://github.com/joythishreddye/devprint/issues/6#event-5565487159
+                          - generic "Mar 31, 2026, 12:16 PM CDT" [ref=e343]: on Mar 31, 20264 days ago
+                      - region "Issues mentioned" [ref=e346]:
+                        - list [ref=e347]:
+                          - listitem [ref=e348]:
+                            - generic [ref=e349]:
+                              - img "Open" [ref=e350]
+                              - 'link "Build side-by-side technology comparison page #13" [ref=e353] [cursor=pointer]':
+                                - /url: https://github.com/joythishreddye/devprint/issues/13
+                                - text: Build side-by-side technology comparison page
+                                - generic [ref=e354]: "#13"
+                  - generic [ref=e361]:
+                    - img [ref=e364]
+                    - generic [ref=e368]:
+                      - link "joythishreddye" [ref=e370] [cursor=pointer]:
+                        - /url: /joythishreddye
+                        - generic [ref=e371]: joythishreddye
+                      - text: added this to
+                      - generic [ref=e372]:
+                        - img [ref=e373]
+                        - link "DevPrint - Project 3" [ref=e375] [cursor=pointer]:
+                          - /url: https://github.com/users/joythishreddye/projects/1
+                      - link "on Mar 31, 20264 days ago" [ref=e376] [cursor=pointer]:
+                        - /url: https://github.com/joythishreddye/devprint/issues/6#event-24083885593
+                        - generic "Mar 31, 2026, 12:53 PM CDT" [ref=e377]: on Mar 31, 20264 days ago
+                  - generic [ref=e381]:
+                    - img [ref=e384]
+                    - generic [ref=e388]:
+                      - link "github-project-automation" [ref=e390] [cursor=pointer]:
+                        - /url: /apps/github-project-automation
+                        - generic [ref=e391]: github-project-automation
+                      - text: moved this to Todo in
+                      - generic [ref=e392]:
+                        - img [ref=e393]
+                        - link "DevPrint - Project 3" [ref=e395] [cursor=pointer]:
+                          - /url: https://github.com/users/joythishreddye/projects/1
+                      - link "on Mar 31, 20264 days ago" [ref=e396] [cursor=pointer]:
+                        - /url: https://github.com/joythishreddye/devprint/issues/6
+                        - generic "Mar 31, 2026, 12:53 PM CDT" [ref=e397]: on Mar 31, 20264 days ago
+                - generic [ref=e398]:
+                  - link "@khajjafar's profile" [ref=e399] [cursor=pointer]:
+                    - /url: https://github.com/khajjafar
+                    - img "khajjafar" [ref=e400]
+                  - generic [ref=e407]:
+                    - generic [ref=e409]:
+                      - heading "khajjafar commented on Apr 4, 2026 20 minutes ago" [level=3] [ref=e410]:
+                        - text: khajjafar commented
+                        - generic "Apr 4, 2026, 9:40 AM CDT" [ref=e411]: on Apr 4, 2026 20 minutes ago
+                      - generic [ref=e412]:
+                        - link "khajjafar" [ref=e414] [cursor=pointer]:
+                          - /url: /khajjafar
+                        - link "on Apr 4, 202620 minutes ago" [ref=e417] [cursor=pointer]:
+                          - /url: https://github.com/joythishreddye/devprint/issues/6#issuecomment-4187211615
+                          - generic "Apr 4, 2026, 9:40 AM CDT" [ref=e418]: on Apr 4, 202620 minutes ago
+                      - generic [ref=e420]:
+                        - generic "This user has been invited to collaborate on the devprint repository." [ref=e422]: Collaborator
+                        - button "Actions for khajjafar's comment, 9:40 AM today" [ref=e424] [cursor=pointer]:
+                          - img [ref=e425]
+                    - generic [ref=e427]:
+                      - generic [ref=e429]:
+                        - heading "Implementation Complete" [level=2] [ref=e430]
+                        - paragraph [ref=e431]:
+                          - strong [ref=e432]: Branch
+                          - text: ": `feat/comparison-engine`"
+                        - heading "What was built" [level=3] [ref=e433]
+                        - paragraph [ref=e434]: "A pure TypeScript comparison engine in `src/lib/comparison/` that scores two technologies across 6 weighted categories (performance, developer_experience, community, learning_curve, ecosystem, maturity) and produces a structured result with a winner, per-category scores, and a human-readable summary. Built with strict TDD — tests written before implementation."
+                        - heading "Files added" [level=3] [ref=e435]
+                        - list [ref=e436]:
+                          - listitem [ref=e437]:
+                            - text: "`src/lib/comparison/"
+                            - strong [ref=e438]: tests
+                            - text: "/compare-technologies.test.ts` — 27 tests covering happy path, null inputs, boundary values, tie scenarios, and commutativity"
+                          - listitem [ref=e439]: "`src/lib/comparison/compare-technologies.ts` — exports `calculateCategoryScores`, `compareTechnologies`, `generateComparisonSummary`"
+                          - listitem [ref=e440]: "`src/lib/comparison/index.ts` — barrel export"
+                        - heading "How to test" [level=3] [ref=e441]
+                        - paragraph [ref=e442]:
+                          - text: "```bash"
+                          - text: "npm run test # run all 27 tests"
+                          - text: "npm run test:coverage # view coverage report"
+                          - text: "```"
+                        - heading "Coverage" [level=3] [ref=e443]
+                        - table [ref=e445]:
+                          - rowgroup [ref=e446]:
+                            - row "Module Statements Branches Functions Lines" [ref=e447]:
+                              - columnheader "Module" [ref=e448]
+                              - columnheader "Statements" [ref=e449]
+                              - columnheader "Branches" [ref=e450]
+                              - columnheader "Functions" [ref=e451]
+                              - columnheader "Lines" [ref=e452]
+                          - rowgroup [ref=e453]:
+                            - 'row "`lib/comparison` 100% 100% 100% 100%" [ref=e454]':
+                              - 'cell "`lib/comparison`" [ref=e455]'
+                              - cell "100%" [ref=e456]
+                              - cell "100%" [ref=e457]
+                              - cell "100%" [ref=e458]
+                              - cell "100%" [ref=e459]
+                        - heading "How to review" [level=3] [ref=e460]
+                        - paragraph [ref=e461]:
+                          - text: "```bash"
+                          - text: git checkout feat/comparison-engine
+                          - text: git diff main...HEAD -- src/lib/comparison/
+                          - text: "```"
+                        - heading "Commit history" [level=3] [ref=e462]
+                        - paragraph [ref=e463]:
+                          - text: "```"
+                          - text: "test: add failing tests for comparison engine"
+                          - text: "feat: implement comparison engine"
+                          - text: "refactor: extract score fns to lookup table, add barrel export"
+                          - text: "```"
+                      - toolbar "Reactions"
+            - generic [ref=e464]:
+              - link "Sign up for free" [ref=e465] [cursor=pointer]:
+                - /url: /signup?return_to=https://github.com/joythishreddye/devprint/issues/6
+                - generic [ref=e467]: Sign up for free
+              - generic [ref=e468]:
+                - strong [ref=e469]: to join this conversation on GitHub.
+                - text: Already have an account?
+              - link "Sign in to comment" [ref=e470] [cursor=pointer]:
+                - /url: /login?return_to=https://github.com/joythishreddye/devprint/issues/6
+        - generic [ref=e472]:
+          - heading "Metadata" [level=2] [ref=e473]
+          - generic [ref=e475]:
+            - generic [ref=e477]:
+              - generic [ref=e478]:
+                - heading "Assignees" [level=3]
+              - generic [ref=e479]: No one assigned
+            - generic [ref=e480]:
+              - generic [ref=e482]:
+                - heading "Labels" [level=3]
+              - generic [ref=e484]:
+                - link "feature New user-facing functionality" [ref=e485] [cursor=pointer]:
+                  - /url: https://github.com/joythishreddye/devprint/issues?q=state%3Aopen%20label%3A%22feature%22
+                  - generic [ref=e487]: feature
+                  - generic [ref=e488]: New user-facing functionality
+                - 'link "priority: high Must complete this sprint" [ref=e489] [cursor=pointer]':
+                  - /url: https://github.com/joythishreddye/devprint/issues?q=state%3Aopen%20label%3A%22priority%3A%20high%22
+                  - generic [ref=e491]: "priority: high"
+                  - generic [ref=e492]: Must complete this sprint
+                - 'link "sprint 1 Sprint 1: Foundation + Core (Mar 20-30)" [ref=e493] [cursor=pointer]':
+                  - /url: https://github.com/joythishreddye/devprint/issues?q=state%3Aopen%20label%3A%22sprint%201%22
+                  - generic [ref=e495]: sprint 1
+                  - generic [ref=e496]: "Sprint 1: Foundation + Core (Mar 20-30)"
+            - generic [ref=e497]:
+              - generic [ref=e499]:
+                - heading "Projects" [level=3]
+              - generic [ref=e503]:
+                - link "DevPrint - Project 3" [ref=e505] [cursor=pointer]:
+                  - /url: https://github.com/users/joythishreddye/projects/1
+                  - img [ref=e506]
+                  - generic "DevPrint - Project 3" [ref=e508]
+                - generic [ref=e509]:
+                  - generic [ref=e510]:
+                    - paragraph [ref=e511]: Status
+                    - generic [ref=e516]: Todo
+                  - button "Show more project fields" [ref=e517] [cursor=pointer]:
+                    - img [ref=e518]
+            - generic [ref=e521]:
+              - generic [ref=e522]:
+                - heading "Milestone" [level=3]
+              - generic [ref=e523]: No milestone
+            - generic [ref=e525]:
+              - generic [ref=e526]:
+                - heading "Relationships" [level=3]
+              - generic [ref=e527]: None yet
+            - generic [ref=e528]:
+              - generic [ref=e530]:
+                - heading "Development" [level=3]
+              - generic [ref=e531]:
+                - generic [ref=e533]:
+                  - button "Code with agent mode" [ref=e535] [cursor=pointer]:
+                    - generic [ref=e536]:
+                      - generic:
+                        - img
+                      - generic [ref=e537]: Code with agent mode
+                  - button "Select code repository" [ref=e540] [cursor=pointer]:
+                    - img [ref=e541]
+                - generic [ref=e543]: No branches or pull requests
+                - list
+            - generic [ref=e544]:
+              - generic [ref=e546]:
+                - heading "Participants" [level=3]
+              - generic [ref=e549]:
+                - link "@khajjafar" [ref=e550] [cursor=pointer]:
+                  - /url: /khajjafar
+                  - img "@khajjafar" [ref=e551]
+                - link "@joythishreddye" [ref=e552] [cursor=pointer]:
+                  - /url: /joythishreddye
+                  - img "@joythishreddye" [ref=e553]
+            - heading "Issue actions" [level=2] [ref=e554]
+            - list
+  - contentinfo [ref=e555]:
+    - heading "Footer" [level=2] [ref=e556]
+    - generic [ref=e557]:
+      - generic [ref=e558]:
+        - link "GitHub Homepage" [ref=e559] [cursor=pointer]:
+          - /url: https://github.com
+          - img [ref=e560]
+        - generic [ref=e562]: © 2026 GitHub, Inc.
+      - navigation "Footer" [ref=e563]:
+        - heading "Footer navigation" [level=3] [ref=e564]
+        - list "Footer navigation" [ref=e565]:
+          - listitem [ref=e566]:
+            - link "Terms" [ref=e567] [cursor=pointer]:
+              - /url: https://docs.github.com/site-policy/github-terms/github-terms-of-service
+          - listitem [ref=e568]:
+            - link "Privacy" [ref=e569] [cursor=pointer]:
+              - /url: https://docs.github.com/site-policy/privacy-policies/github-privacy-statement
+          - listitem [ref=e570]:
+            - link "Security" [ref=e571] [cursor=pointer]:
+              - /url: https://github.com/security
+          - listitem [ref=e572]:
+            - link "Status" [ref=e573] [cursor=pointer]:
+              - /url: https://www.githubstatus.com/
+          - listitem [ref=e574]:
+            - link "Community" [ref=e575] [cursor=pointer]:
+              - /url: https://github.community/
+          - listitem [ref=e576]:
+            - link "Docs" [ref=e577] [cursor=pointer]:
+              - /url: https://docs.github.com/
+          - listitem [ref=e578]:
+            - link "Contact" [ref=e579] [cursor=pointer]:
+              - /url: https://support.github.com?tags=dotcom-footer
+          - listitem [ref=e580]:
+            - button "Manage cookies" [ref=e582] [cursor=pointer]
+          - listitem [ref=e583]:
+            - button "Do not share my personal information" [ref=e585] [cursor=pointer]

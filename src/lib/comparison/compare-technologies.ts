@@ -1,110 +1,94 @@
 import type { Technology } from '@/types/database';
+import type { ComparisonResult, CategoryScore } from '@/types/comparison';
+import { CATEGORY_WEIGHTS, type ComparisonCategory } from '@/types/comparison';
 import {
-  CATEGORY_WEIGHTS,
-  type CategoryScore,
-  type ComparisonCategory,
-  type ComparisonResult,
-  type ComparisonSummary,
-} from '@/types/comparison';
+  scoreLearningCurve,
+  scoreCommunitySize,
+  scoreMaturity,
+  scoreGitHubStars,
+  scoreNpmDownloads,
+  normalizeScore,
+} from './scoring';
 
-// ─── Scoring lookup tables ────────────────────────────────────────────────────
+function calculateCategoryScore(
+  techA: Technology,
+  techB: Technology,
+  category: ComparisonCategory
+): CategoryScore {
+  let rawA: number;
+  let rawB: number;
 
-const LEARNING_CURVE_SCORE: Record<Technology['learning_curve'], number> = {
-  beginner: 3,
-  intermediate: 2,
-  advanced: 1,
-};
+  switch (category) {
+    case 'performance':
+      rawA = (scoreLearningCurve(techA.learning_curve) + (10 - scoreNpmDownloads(techA.npm_weekly_downloads) + 5)) / 2;
+      rawB = (scoreLearningCurve(techB.learning_curve) + (10 - scoreNpmDownloads(techB.npm_weekly_downloads) + 5)) / 2;
+      break;
+    case 'developer_experience':
+      rawA = (scoreLearningCurve(techA.learning_curve) + Math.min(techA.pros.length * 2, 10)) / 2;
+      rawB = (scoreLearningCurve(techB.learning_curve) + Math.min(techB.pros.length * 2, 10)) / 2;
+      break;
+    case 'community':
+      rawA = (scoreGitHubStars(techA.github_stars) + scoreCommunitySize(techA.community_size)) / 2;
+      rawB = (scoreGitHubStars(techB.github_stars) + scoreCommunitySize(techB.community_size)) / 2;
+      break;
+    case 'learning_curve':
+      rawA = scoreLearningCurve(techA.learning_curve);
+      rawB = scoreLearningCurve(techB.learning_curve);
+      break;
+    case 'ecosystem':
+      rawA = (scoreNpmDownloads(techA.npm_weekly_downloads) + scoreGitHubStars(techA.github_stars)) / 2;
+      rawB = (scoreNpmDownloads(techB.npm_weekly_downloads) + scoreGitHubStars(techB.github_stars)) / 2;
+      break;
+    case 'maturity':
+      rawA = scoreMaturity(techA.maturity);
+      rawB = scoreMaturity(techB.maturity);
+      break;
+  }
 
-const COMMUNITY_SIZE_SCORE: Record<Technology['community_size'], number> = {
-  small: 1,
-  medium: 2,
-  large: 3,
-};
-
-const MATURITY_SCORE: Record<Technology['maturity'], number> = {
-  emerging: 1,
-  growing: 2,
-  mature: 4,
-  declining: 1,
-};
-
-// ─── Score functions per category ─────────────────────────────────────────────
-
-type ScoreFn = (tech: Technology) => number;
-
-const SCORE_FNS: Record<ComparisonCategory, ScoreFn> = {
-  performance: (t) =>
-    (t.github_stars ?? 0) * 0.0001 + (t.npm_weekly_downloads ?? 0) * 0.000001,
-  developer_experience: (t) =>
-    LEARNING_CURVE_SCORE[t.learning_curve] + t.pros.length * 0.1,
-  community: (t) =>
-    COMMUNITY_SIZE_SCORE[t.community_size] + (t.github_stars ?? 0) * 0.000005,
-  learning_curve: (t) => LEARNING_CURVE_SCORE[t.learning_curve],
-  ecosystem: (t) =>
-    (t.npm_weekly_downloads ?? 0) * 0.000001 + t.best_for.length * 0.5,
-  maturity: (t) => MATURITY_SCORE[t.maturity],
-};
-
-function rawScore(tech: Technology, category: ComparisonCategory): number {
-  return SCORE_FNS[category](tech);
+  return {
+    category,
+    scoreA: rawA,
+    scoreB: rawB,
+    weight: CATEGORY_WEIGHTS[category],
+    normalizedScoreA: normalizeScore(rawA),
+    normalizedScoreB: normalizeScore(rawB),
+  };
 }
 
-function normalize(a: number, b: number): [number, number] {
-  const sum = a + b;
-  if (sum === 0) return [0.5, 0.5];
-  return [a / sum, b / sum];
+function calculateOverallScore(categoryScores: CategoryScore[], side: 'A' | 'B'): number {
+  const weighted = categoryScores.reduce(
+    (sum, s) => sum + (side === 'A' ? s.normalizedScoreA : s.normalizedScoreB) * s.weight,
+    0
+  );
+  return Math.round(weighted * 10) / 10;
 }
 
-// ─── Public API ───────────────────────────────────────────────────────────────
+function determineWinner(scoreA: number, scoreB: number): 'A' | 'B' | 'tie' {
+  if (scoreA > scoreB) return 'A';
+  if (scoreB > scoreA) return 'B';
+  return 'tie';
+}
 
 export function calculateCategoryScores(
   techA: Technology,
-  techB: Technology,
+  techB: Technology
 ): CategoryScore[] {
-  return (Object.keys(CATEGORY_WEIGHTS) as ComparisonCategory[]).map((category) => {
-    const scoreA = rawScore(techA, category);
-    const scoreB = rawScore(techB, category);
-    const [normalizedScoreA, normalizedScoreB] = normalize(scoreA, scoreB);
-    return { category, scoreA, scoreB, weight: CATEGORY_WEIGHTS[category], normalizedScoreA, normalizedScoreB };
-  });
+  const categories = Object.keys(CATEGORY_WEIGHTS) as ComparisonCategory[];
+  return categories.map((category) => calculateCategoryScore(techA, techB, category));
 }
 
-export function compareTechnologies(
-  techA: Technology,
-  techB: Technology,
-): ComparisonResult {
+export function compareTechnologies(techA: Technology, techB: Technology): ComparisonResult {
   const categoryScores = calculateCategoryScores(techA, techB);
-  const overallScoreA = categoryScores.reduce((sum, s) => sum + s.normalizedScoreA * s.weight, 0);
-  const overallScoreB = categoryScores.reduce((sum, s) => sum + s.normalizedScoreB * s.weight, 0);
-  const winner: 'A' | 'B' | 'tie' =
-    overallScoreA > overallScoreB ? 'A' : overallScoreB > overallScoreA ? 'B' : 'tie';
+
+  const overallScoreA = calculateOverallScore(categoryScores, 'A');
+  const overallScoreB = calculateOverallScore(categoryScores, 'B');
+
   return {
     techA: { name: techA.name, slug: techA.slug, category: techA.category },
     techB: { name: techB.name, slug: techB.slug, category: techB.category },
     categoryScores,
     overallScoreA,
     overallScoreB,
-    winner,
-  };
-}
-
-export function generateComparisonSummary(result: ComparisonResult): ComparisonSummary {
-  const { techA, techB, categoryScores, winner } = result;
-  const advantagesA = categoryScores.filter((s) => s.normalizedScoreA > 0.5).map((s) => s.category);
-  const advantagesB = categoryScores.filter((s) => s.normalizedScoreB > 0.5).map((s) => s.category);
-  const tradeoffs = categoryScores
-    .filter((s) => Math.abs(s.normalizedScoreA - s.normalizedScoreB) < 0.1)
-    .map((s) => `${s.category} is similar between both`);
-  const recommendation =
-    winner === 'tie'
-      ? `It's a tie between ${techA.name} and ${techB.name}`
-      : winner === 'A'
-        ? `${techA.name} is the stronger choice overall`
-        : `${techB.name} is the stronger choice overall`;
-  return {
-    recommendation,
-    advantages: { techA: advantagesA, techB: advantagesB },
-    tradeoffs,
-    bestFor: { techA: techA.category, techB: techB.category },
+    winner: determineWinner(overallScoreA, overallScoreB),
   };
 }

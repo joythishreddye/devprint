@@ -1,5 +1,10 @@
+export { compareTechnologies, calculateCategoryScores } from './compare-technologies';
+export { generateComparisonSummary } from './summary';
 export {
-  calculateCategoryScores,
-  compareTechnologies,
-  generateComparisonSummary,
-} from './compare-technologies';
+  scoreLearningCurve,
+  scoreCommunitySize,
+  scoreMaturity,
+  scoreGitHubStars,
+  scoreNpmDownloads,
+  normalizeScore,
+} from './scoring';

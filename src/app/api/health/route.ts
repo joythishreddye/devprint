@@ -5,7 +5,7 @@ export async function GET() {
   const startTime = Date.now();
 
   try {
-    const supabase = createServerClient();
+    const supabase = await createServerClient();
     const { error } = await supabase.from('technologies').select('id').limit(1);
 
     const dbStatus = error ? 'disconnected' : 'connected';

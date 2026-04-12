@@ -1,10 +1,13 @@
-/// <reference types="vitest/config" />
 import { defineConfig } from 'vitest/config';
 import path from 'path';
 
 export default defineConfig({
   test: {
-    environment: 'jsdom',
+    environment: 'node',
+    environmentMatchGlobs: [
+      ['src/components/**', 'happy-dom'],
+      ['src/app/**', 'happy-dom'],
+    ],
     globals: true,
     setupFiles: ['./src/test-setup.ts'],
     include: ['src/**/*.{test,spec}.{ts,tsx}'],

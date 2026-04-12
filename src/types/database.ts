@@ -1,6 +1,10 @@
 export type UserRole = 'developer' | 'contributor' | 'admin';
 export type ContributionStatus = 'pending' | 'approved' | 'rejected';
 
+// Converts an interface to a plain mapped object type so it satisfies
+// Record<string, unknown> — required by @supabase/postgrest-js GenericTable.
+type Plainify<T> = { [K in keyof T]: T[K] };
+
 export interface Technology {
   id: string;
   name: string;
@@ -67,30 +71,37 @@ export interface Database {
   public: {
     Tables: {
       technologies: {
-        Row: Technology;
+        Row: Plainify<Technology>;
         Insert: Omit<Technology, 'id' | 'created_at' | 'updated_at'>;
         Update: Partial<Omit<Technology, 'id' | 'created_at' | 'updated_at'>>;
+        Relationships: [];
       };
       comparisons: {
-        Row: Comparison;
+        Row: Plainify<Comparison>;
         Insert: Omit<Comparison, 'id' | 'created_at'>;
         Update: Partial<Omit<Comparison, 'id' | 'created_at'>>;
+        Relationships: [];
       };
       user_profiles: {
-        Row: UserProfile;
+        Row: Plainify<UserProfile>;
         Insert: Omit<UserProfile, 'created_at' | 'updated_at'>;
         Update: Partial<Omit<UserProfile, 'id' | 'created_at' | 'updated_at'>>;
+        Relationships: [];
       };
       project_plans: {
-        Row: ProjectPlan;
+        Row: Plainify<ProjectPlan>;
         Insert: Omit<ProjectPlan, 'id' | 'created_at' | 'updated_at'>;
         Update: Partial<Omit<ProjectPlan, 'id' | 'created_at' | 'updated_at'>>;
+        Relationships: [];
       };
       contributions: {
-        Row: Contribution;
+        Row: Plainify<Contribution>;
         Insert: Omit<Contribution, 'id' | 'created_at' | 'updated_at'>;
         Update: Partial<Omit<Contribution, 'id' | 'created_at' | 'updated_at'>>;
+        Relationships: [];
       };
     };
+    Views: Record<string, never>;
+    Functions: Record<string, never>;
   };
 }

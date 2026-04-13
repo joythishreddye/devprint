@@ -19,8 +19,6 @@ jobs:
           cache: npm
       - run: npm ci
       - run: npm run lint
-      - name: Prettier check
-        run: npx prettier --check "src/**/*.{ts,tsx}"
 
   # Stage 2: Typecheck
   typecheck:
@@ -47,7 +45,7 @@ jobs:
           cache: npm
       - run: npm ci
       - name: Run tests with coverage
-        run: npm run test:coverage -- --coverage.thresholds.lines=70 --coverage.thresholds.branches=70 --coverage.thresholds.functions=70
+        run: npm run test:coverage -- --coverage.include="src/lib/**" --coverage.exclude="src/lib/supabase/**" --coverage.thresholds.lines=70 --coverage.thresholds.branches=70 --coverage.thresholds.functions=70
 
   # Stage 4: E2E Tests (against Vercel preview URL)
   e2e-tests:

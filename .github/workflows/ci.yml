@@ -1,4 +1,4 @@
-name: CI
+name: CI/CD Pipeline
 
 on:
   pull_request:
@@ -7,8 +7,9 @@ on:
     branches: [main]
 
 jobs:
+  # Stage 1: Lint
   lint:
-    name: Lint
+    name: "Stage 1: Lint"
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -18,9 +19,12 @@ jobs:
           cache: npm
       - run: npm ci
       - run: npm run lint
+      - name: Prettier check
+        run: npx prettier --check "src/**/*.{ts,tsx}"
 
+  # Stage 2: Typecheck
   typecheck:
-    name: Type Check
+    name: "Stage 2: Typecheck"
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -31,8 +35,9 @@ jobs:
       - run: npm ci
       - run: npm run typecheck
 
-  test:
-    name: Unit Tests
+  # Stage 3: Unit Tests with coverage gate
+  unit-tests:
+    name: "Stage 3: Unit Tests"
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -41,12 +46,15 @@ jobs:
           node-version: 20
           cache: npm
       - run: npm ci
-      - run: npm run test:coverage
+      - name: Run tests with coverage
+        run: npm run test:coverage -- --coverage.thresholds.lines=70 --coverage.thresholds.branches=70 --coverage.thresholds.functions=70
 
-  build:
-    name: Build
+  # Stage 4: E2E Tests (against Vercel preview URL)
+  e2e-tests:
+    name: "Stage 4: E2E Tests"
     runs-on: ubuntu-latest
-    needs: [lint, typecheck, test]
+    needs: [lint, typecheck, unit-tests]
+    if: github.event_name == 'pull_request'
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
@@ -54,19 +62,66 @@ jobs:
           node-version: 20
           cache: npm
       - run: npm ci
-      - run: npm run build
+      - name: Install Playwright browsers
+        run: npx playwright install --with-deps chromium
+      - name: Run E2E tests
+        run: npm run test:e2e
         env:
+          PLAYWRIGHT_BASE_URL: ${{ vars.VERCEL_PREVIEW_URL || 'http://localhost:3000' }}
           NEXT_PUBLIC_SUPABASE_URL: ${{ secrets.NEXT_PUBLIC_SUPABASE_URL }}
           NEXT_PUBLIC_SUPABASE_ANON_KEY: ${{ secrets.NEXT_PUBLIC_SUPABASE_ANON_KEY }}
 
+  # Stage 5: Security scan
   security:
-    name: Security Audit
+    name: "Stage 5: Security"
     runs-on: ubuntu-latest
+    needs: [lint, typecheck, unit-tests]
     steps:
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
       - uses: actions/setup-node@v4
         with:
           node-version: 20
           cache: npm
       - run: npm ci
-      - run: npm audit --audit-level=high
+      - name: npm audit
+        run: npm audit --audit-level=high
+      - name: Gitleaks secrets scan
+        uses: gitleaks/gitleaks-action@v2
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+  # Stage 6: AI PR Review
+  ai-pr-review:
+    name: "Stage 6: AI PR Review"
+    runs-on: ubuntu-latest
+    needs: [lint, typecheck, unit-tests]
+    if: github.event_name == 'pull_request'
+    permissions:
+      contents: read
+      pull-requests: write
+    steps:
+      - uses: actions/checkout@v4
+      - name: Claude Code PR Review
+        uses: anthropics/claude-code-action@beta
+        with:
+          anthropic_api_key: ${{ secrets.ANTHROPIC_API_KEY }}
+
+  # Stage 7: Vercel Preview Deploy
+  # Handled automatically by the Vercel GitHub integration on every PR.
+  # No explicit job needed — Vercel posts the preview URL as a PR check.
+
+  # Stage 8: Vercel Production Deploy (main branch only)
+  deploy-production:
+    name: "Stage 8: Production Deploy"
+    runs-on: ubuntu-latest
+    needs: [lint, typecheck, unit-tests, security]
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    steps:
+      - uses: actions/checkout@v4
+      - name: Deploy to Vercel production
+        run: npx vercel --prod --token=${{ secrets.VERCEL_TOKEN }} --yes
+        env:
+          VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+          VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}

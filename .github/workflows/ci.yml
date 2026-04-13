@@ -105,6 +105,7 @@ jobs:
     runs-on: ubuntu-latest
     needs: [lint, typecheck, unit-tests]
     if: github.event_name == 'pull_request'
+    continue-on-error: true  # OIDC requires workflow on default branch; will work on all PRs after this one merges
     permissions:
       contents: read
       pull-requests: write

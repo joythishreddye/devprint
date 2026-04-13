@@ -19,23 +19,21 @@ export default function TechnologyHeader({ technology }: TechnologyHeaderProps) 
   const { name, category, description, website_url, github_url, npm_package } = technology;
 
   return (
-    <div className="mb-10">
-      <div className="flex flex-wrap items-center gap-3 mb-3">
-        <span className="rounded-full bg-zinc-100 px-3 py-1 text-xs font-medium text-zinc-600">
-          {formatCategory(category)}
-        </span>
-      </div>
+    <div>
+      <p className="text-xs font-medium uppercase tracking-widest text-zinc-400 mb-3">
+        {formatCategory(category)}
+      </p>
       <h1 className="text-3xl font-bold tracking-tight text-zinc-900 sm:text-4xl">{name}</h1>
-      <p className="mt-4 text-lg leading-8 text-zinc-600 max-w-3xl">{description}</p>
-      <div className="mt-6 flex flex-wrap gap-4">
+      <p className="mt-4 max-w-2xl text-lg leading-8 text-zinc-600">{description}</p>
+      <div className="mt-6 flex flex-wrap items-center gap-x-5 gap-y-2">
         {website_url && (
           <a
             href={website_url}
             target="_blank"
             rel="noopener noreferrer"
-            className="text-sm font-medium text-zinc-600 hover:text-zinc-900 transition-colors underline underline-offset-2"
+            className="text-sm font-medium text-zinc-500 hover:text-zinc-900 transition-colors"
           >
-            Website
+            Website &rarr;
           </a>
         )}
         {github_url && (
@@ -43,9 +41,9 @@ export default function TechnologyHeader({ technology }: TechnologyHeaderProps) 
             href={github_url}
             target="_blank"
             rel="noopener noreferrer"
-            className="text-sm font-medium text-zinc-600 hover:text-zinc-900 transition-colors underline underline-offset-2"
+            className="text-sm font-medium text-zinc-500 hover:text-zinc-900 transition-colors"
           >
-            GitHub
+            GitHub &rarr;
           </a>
         )}
         {npm_package && (
@@ -53,14 +51,15 @@ export default function TechnologyHeader({ technology }: TechnologyHeaderProps) 
             href={`https://www.npmjs.com/package/${npm_package}`}
             target="_blank"
             rel="noopener noreferrer"
-            className="text-sm font-medium text-zinc-600 hover:text-zinc-900 transition-colors underline underline-offset-2"
+            className="text-sm font-medium text-zinc-500 hover:text-zinc-900 transition-colors"
           >
-            npm
+            npm &rarr;
           </a>
         )}
+        <span className="text-zinc-200">|</span>
         <Link
           href="/compare"
-          className="text-sm font-medium text-zinc-600 hover:text-zinc-900 transition-colors underline underline-offset-2"
+          className="text-sm font-medium text-zinc-500 hover:text-zinc-900 transition-colors"
         >
           Compare with another &rarr;
         </Link>

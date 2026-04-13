@@ -36,52 +36,54 @@ export default function TechnologiesFilter({
 
   return (
     <div>
-      {/* Search */}
-      <div className="mb-6">
-        <input
-          type="search"
-          value={query}
-          onChange={(e) => setQuery(e.target.value)}
-          placeholder="Search technologies..."
-          className="w-full max-w-sm rounded-lg border border-zinc-300 bg-white px-4 py-2 text-sm text-zinc-900 placeholder-zinc-400 outline-none focus:border-zinc-500 focus:ring-1 focus:ring-zinc-500"
-        />
+      {/* Control panel — contained surface so filters feel designed, not floating */}
+      <div className="mb-8 rounded-xl border border-zinc-200 bg-white p-5 shadow-sm">
+        <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:gap-6">
+          <input
+            type="search"
+            value={query}
+            onChange={(e) => setQuery(e.target.value)}
+            placeholder="Search technologies..."
+            className="w-full max-w-xs rounded-lg border border-zinc-200 bg-zinc-50 px-4 py-2 text-sm text-zinc-900 placeholder-zinc-400 outline-none transition-colors focus:border-zinc-400 focus:bg-white focus:ring-1 focus:ring-zinc-300"
+          />
+          <div className="flex flex-wrap gap-2">
+            <button
+              onClick={() => setActiveCategory('all')}
+              className={`rounded-full px-3.5 py-1.5 text-xs font-medium transition-colors ${
+                activeCategory === 'all'
+                  ? 'bg-zinc-900 text-white'
+                  : 'bg-zinc-100 text-zinc-600 hover:bg-zinc-200'
+              }`}
+            >
+              All
+            </button>
+            {categories.map((cat) => (
+              <button
+                key={cat}
+                onClick={() => setActiveCategory(cat)}
+                className={`rounded-full px-3.5 py-1.5 text-xs font-medium transition-colors ${
+                  activeCategory === cat
+                    ? 'bg-zinc-900 text-white'
+                    : 'bg-zinc-100 text-zinc-600 hover:bg-zinc-200'
+                }`}
+              >
+                {formatCategory(cat)}
+              </button>
+            ))}
+          </div>
+        </div>
       </div>
 
-      {/* Category pills */}
-      <div className="mb-8 flex flex-wrap gap-2">
-        <button
-          onClick={() => setActiveCategory('all')}
-          className={`rounded-full px-4 py-1.5 text-sm font-medium transition-colors ${
-            activeCategory === 'all'
-              ? 'bg-zinc-900 text-white'
-              : 'bg-zinc-100 text-zinc-600 hover:bg-zinc-200'
-          }`}
-        >
-          All
-        </button>
-        {categories.map((cat) => (
-          <button
-            key={cat}
-            onClick={() => setActiveCategory(cat)}
-            className={`rounded-full px-4 py-1.5 text-sm font-medium transition-colors ${
-              activeCategory === cat
-                ? 'bg-zinc-900 text-white'
-                : 'bg-zinc-100 text-zinc-600 hover:bg-zinc-200'
-            }`}
-          >
-            {formatCategory(cat)}
-          </button>
-        ))}
-      </div>
-
-      {/* Grid */}
+      {/* Results */}
       {filtered.length === 0 ? (
         <p className="py-16 text-center text-sm text-zinc-500">
           No technologies match your search.
         </p>
       ) : (
         <>
-          <p className="mb-4 text-xs text-zinc-400">{filtered.length} result{filtered.length !== 1 ? 's' : ''}</p>
+          <p className="mb-5 text-xs font-medium text-zinc-400">
+            {filtered.length} result{filtered.length !== 1 ? 's' : ''}
+          </p>
           <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
             {filtered.map((tech) => (
               <TechnologyCard key={tech.id} technology={tech} />

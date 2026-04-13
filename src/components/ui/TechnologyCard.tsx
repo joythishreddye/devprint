@@ -28,20 +28,20 @@ export function TechnologyCard({ technology }: TechnologyCardProps) {
   return (
     <Link
       href={`/technology/${slug}`}
-      className="group flex flex-col gap-3 rounded-xl border border-zinc-200 bg-white p-5 shadow-sm transition-shadow hover:shadow-md"
+      className="group flex flex-col gap-3 rounded-xl border border-zinc-200 bg-white p-5 shadow-sm transition-all duration-150 hover:border-zinc-300 hover:shadow-md hover:-translate-y-px"
     >
       <div className="flex items-start justify-between gap-2">
         <span className="text-base font-semibold text-zinc-900 group-hover:text-zinc-700 transition-colors">
           {name}
         </span>
-        <span className="shrink-0 rounded-full bg-zinc-100 px-2 py-0.5 text-xs font-medium text-zinc-600">
+        <span className="shrink-0 rounded-full bg-zinc-100 px-2 py-0.5 text-xs font-medium text-zinc-500">
           {formatCategory(category)}
         </span>
       </div>
 
       <p className="line-clamp-2 text-sm leading-relaxed text-zinc-600">{description}</p>
 
-      <div className="mt-auto flex items-center gap-3 text-xs text-zinc-400">
+      <div className="mt-auto flex items-center gap-3 border-t border-zinc-100 pt-3 text-xs text-zinc-400">
         {github_stars !== null && (
           <span>{formatStars(github_stars)}</span>
         )}

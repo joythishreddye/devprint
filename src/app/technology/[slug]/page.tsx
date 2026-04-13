@@ -31,10 +31,19 @@ export default async function TechnologyPage({
   }
 
   return (
-    <div className="mx-auto max-w-4xl px-4 py-12 sm:px-6 lg:px-8">
-      <TechnologyHeader technology={technology} />
-      <TechnologyStats technology={technology} />
-      <TechnologyProsCons technology={technology} />
+    <div className="flex flex-col">
+      {/* Hero band — same tonal treatment as landing page hero */}
+      <div className="border-b border-zinc-200 bg-zinc-50">
+        <div className="mx-auto max-w-4xl px-4 py-12 sm:px-6 lg:px-8">
+          <TechnologyHeader technology={technology} />
+        </div>
+      </div>
+
+      {/* Stats + pros/cons on white */}
+      <div className="mx-auto w-full max-w-4xl px-4 py-10 sm:px-6 lg:px-8 flex flex-col gap-6">
+        <TechnologyStats technology={technology} />
+        <TechnologyProsCons technology={technology} />
+      </div>
     </div>
   );
 }

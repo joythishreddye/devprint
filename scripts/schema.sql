@@ -144,6 +144,30 @@ create policy "Contributors can view own contributions"
     )
   );
 
+-- Contributors can delete own pending contributions (used in edit delete+reinsert flow)
+create policy "Contributors can delete own pending contributions"
+  on contributions for delete
+  using (auth.uid() = contributor_id and status = 'pending');
+
+-- Contributors can update own pending contributions (safer alternative to delete+reinsert)
+create policy "Contributors can update own pending contributions"
+  on contributions for update
+  using (auth.uid() = contributor_id and status = 'pending')
+  with check (auth.uid() = contributor_id and status = 'pending');
+
+-- Replace the permissive insert policy with one that also checks role
+-- Note: existing "Contributors can insert contributions" policy should be dropped and replaced with:
+create policy "Contributors and admins can insert contributions"
+  on contributions for insert
+  with check (
+    auth.uid() = contributor_id
+    and exists (
+      select 1 from user_profiles
+      where user_profiles.id = auth.uid()
+      and user_profiles.role in ('contributor', 'admin')
+    )
+  );
+
 create policy "Admins can manage contributions"
   on contributions for update
   using (

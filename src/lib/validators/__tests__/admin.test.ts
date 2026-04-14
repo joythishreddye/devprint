@@ -120,6 +120,18 @@ describe('technologyFormSchema', () => {
     expect(result.success).toBe(true);
     if (result.success) expect(result.data.metadata).toEqual({});
   });
+
+  it('coerces empty string npm_package to null', () => {
+    const result = technologyFormSchema.safeParse({ ...VALID_TECH, npm_package: '' });
+    expect(result.success).toBe(true);
+    if (result.success) expect(result.data.npm_package).toBeNull();
+  });
+
+  it('accepts a non-empty npm_package string', () => {
+    const result = technologyFormSchema.safeParse({ ...VALID_TECH, npm_package: 'react' });
+    expect(result.success).toBe(true);
+    if (result.success) expect(result.data.npm_package).toBe('react');
+  });
 });
 
 // ─── promoteUserSchema ────────────────────────────────────────────────────

@@ -52,7 +52,9 @@ export async function submitContribution(
     .insert({
       contributor_id: contributorId,
       technology_data: technologyData,
-      status: 'pending',
+      status: 'pending' as const,
+      reviewer_id: null,
+      review_notes: null,
     })
     .select('id, contributor_id, technology_data, status, reviewer_id, review_notes, created_at, updated_at')
     .single();

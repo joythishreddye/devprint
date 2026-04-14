@@ -144,6 +144,10 @@ create policy "Contributors can view own contributions"
     )
   );
 
+create policy "Contributors can delete own pending contributions"
+  on contributions for delete
+  using (auth.uid() = contributor_id and status = 'pending');
+
 create policy "Admins can manage contributions"
   on contributions for update
   using (

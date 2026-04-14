@@ -40,6 +40,12 @@ export default async function Header() {
                 >
                   Wizard
                 </Link>
+                <Link
+                  href="/contributor"
+                  className="text-sm text-zinc-600 hover:text-zinc-900 transition-colors"
+                >
+                  Contribute
+                </Link>
                 <SignOutButton />
               </>
             ) : (

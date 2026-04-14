@@ -39,7 +39,7 @@ export const technologySubmissionSchema = z.object({
   learning_curve: z.enum(['beginner', 'intermediate', 'advanced']),
   community_size: z.enum(['small', 'medium', 'large']),
   maturity: z.enum(['emerging', 'growing', 'mature', 'declining']),
-  metadata: z.record(z.unknown()).default({}),
+  metadata: z.record(z.string(), z.unknown()).default({}),
 });
 
 export type TechnologySubmissionInput = z.infer<typeof technologySubmissionSchema>;

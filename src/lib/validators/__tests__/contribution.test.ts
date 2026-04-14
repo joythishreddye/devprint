@@ -71,26 +71,26 @@ describe('technologySubmissionSchema', () => {
   // ─── Required fields ─────────────────────────────────────────────────────
 
   it('rejects missing name', () => {
-    const { name: _, ...rest } = VALID_INPUT;
-    const result = technologySubmissionSchema.safeParse(rest);
+    const omit = ({ name: _, ...r }: typeof VALID_INPUT) => r; // eslint-disable-line @typescript-eslint/no-unused-vars
+    const result = technologySubmissionSchema.safeParse(omit(VALID_INPUT));
     expect(result.success).toBe(false);
   });
 
   it('rejects missing slug', () => {
-    const { slug: _, ...rest } = VALID_INPUT;
-    const result = technologySubmissionSchema.safeParse(rest);
+    const omit = ({ slug: _, ...r }: typeof VALID_INPUT) => r; // eslint-disable-line @typescript-eslint/no-unused-vars
+    const result = technologySubmissionSchema.safeParse(omit(VALID_INPUT));
     expect(result.success).toBe(false);
   });
 
   it('rejects missing category', () => {
-    const { category: _, ...rest } = VALID_INPUT;
-    const result = technologySubmissionSchema.safeParse(rest);
+    const omit = ({ category: _, ...r }: typeof VALID_INPUT) => r; // eslint-disable-line @typescript-eslint/no-unused-vars
+    const result = technologySubmissionSchema.safeParse(omit(VALID_INPUT));
     expect(result.success).toBe(false);
   });
 
   it('rejects missing description', () => {
-    const { description: _, ...rest } = VALID_INPUT;
-    const result = technologySubmissionSchema.safeParse(rest);
+    const omit = ({ description: _, ...r }: typeof VALID_INPUT) => r; // eslint-disable-line @typescript-eslint/no-unused-vars
+    const result = technologySubmissionSchema.safeParse(omit(VALID_INPUT));
     expect(result.success).toBe(false);
   });
 
@@ -237,8 +237,8 @@ describe('technologySubmissionSchema', () => {
   // ─── metadata ────────────────────────────────────────────────────────────
 
   it('defaults metadata to empty object when not provided', () => {
-    const { metadata: _, ...rest } = VALID_INPUT;
-    const result = technologySubmissionSchema.safeParse(rest);
+    const omit = ({ metadata: _, ...r }: typeof VALID_INPUT) => r; // eslint-disable-line @typescript-eslint/no-unused-vars
+    const result = technologySubmissionSchema.safeParse(omit(VALID_INPUT));
     expect(result.success).toBe(true);
     if (result.success) expect(result.data.metadata).toEqual({});
   });

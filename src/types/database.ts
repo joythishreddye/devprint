@@ -1,5 +1,14 @@
 export type UserRole = 'developer' | 'contributor' | 'admin';
-export type ContributionStatus = 'pending' | 'approved' | 'rejected';
+
+export const CONTRIBUTION_STATUS = {
+  pending: 'pending',
+  approved: 'approved',
+  rejected: 'rejected',
+} as const;
+export type ContributionStatus = typeof CONTRIBUTION_STATUS[keyof typeof CONTRIBUTION_STATUS];
+
+/** Technology fields submitted by contributors — excludes server-generated columns */
+export type TechnologySubmission = Omit<Technology, 'id' | 'created_at' | 'updated_at'>;
 
 // Converts an interface to a plain mapped object type so it satisfies
 // Record<string, unknown> — required by @supabase/postgrest-js GenericTable.

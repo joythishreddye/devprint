@@ -1,7 +1,7 @@
 import { createServerClient } from '@supabase/ssr';
 import { NextResponse, type NextRequest } from 'next/server';
 
-const PROTECTED_PATHS = ['/wizard', '/admin', '/contributor'];
+const PROTECTED_PATHS = ['/wizard', '/admin', '/contributor', '/dashboard'];
 
 export async function middleware(request: NextRequest): Promise<NextResponse> {
   let response = NextResponse.next({ request });
@@ -10,6 +10,13 @@ export async function middleware(request: NextRequest): Promise<NextResponse> {
   const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
 
   if (!supabaseUrl || !supabaseAnonKey) {
+    const { pathname } = request.nextUrl;
+    const isProtected = PROTECTED_PATHS.some((path) => pathname.startsWith(path));
+    if (isProtected) {
+      const signInUrl = request.nextUrl.clone();
+      signInUrl.pathname = '/sign-in';
+      return NextResponse.redirect(signInUrl);
+    }
     return response;
   }
 

@@ -1,6 +1,8 @@
 import { createServerClient } from '@supabase/ssr';
 import { NextResponse, type NextRequest } from 'next/server';
 
+const PROTECTED_PATHS = ['/wizard', '/admin', '/contributor'];
+
 export async function middleware(request: NextRequest): Promise<NextResponse> {
   let response = NextResponse.next({ request });
 
@@ -28,8 +30,19 @@ export async function middleware(request: NextRequest): Promise<NextResponse> {
     },
   });
 
-  // Refresh session — silently rotates expiring JWTs
-  await supabase.auth.getUser();
+  // Use getUser() — never trust getSession() alone for protected routes
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+
+  const { pathname } = request.nextUrl;
+  const isProtected = PROTECTED_PATHS.some((path) => pathname.startsWith(path));
+
+  if (isProtected && !user) {
+    const signInUrl = request.nextUrl.clone();
+    signInUrl.pathname = '/sign-in';
+    return NextResponse.redirect(signInUrl);
+  }
 
   return response;
 }

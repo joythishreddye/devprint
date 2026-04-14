@@ -3,24 +3,27 @@ import { render, screen } from '@testing-library/react';
 import { CategoryScoreBar } from '../CategoryScoreBar';
 import type { CategoryScore } from '@/types/comparison';
 
+// normalizedScore values are 0–1 fractions as produced by the comparison engine.
+// The component multiplies by 10 for display (e.g. 0.75 → "7.5").
 const sixScores: CategoryScore[] = [
-  { category: 'performance', scoreA: 6, scoreB: 7, weight: 0.2, normalizedScoreA: 6, normalizedScoreB: 7 },
-  { category: 'developer_experience', scoreA: 7, scoreB: 8, weight: 0.25, normalizedScoreA: 7, normalizedScoreB: 8 },
-  { category: 'community', scoreA: 9.5, scoreB: 6, weight: 0.15, normalizedScoreA: 9.5, normalizedScoreB: 6 },
-  { category: 'learning_curve', scoreA: 6, scoreB: 9, weight: 0.15, normalizedScoreA: 6, normalizedScoreB: 9 },
-  { category: 'ecosystem', scoreA: 10, scoreB: 7, weight: 0.15, normalizedScoreA: 10, normalizedScoreB: 7 },
-  { category: 'maturity', scoreA: 9, scoreB: 7, weight: 0.1, normalizedScoreA: 9, normalizedScoreB: 7 },
+  { category: 'performance', scoreA: 6, scoreB: 7, weight: 0.2, normalizedScoreA: 0.6, normalizedScoreB: 0.7 },
+  { category: 'developer_experience', scoreA: 7, scoreB: 8, weight: 0.25, normalizedScoreA: 0.7, normalizedScoreB: 0.8 },
+  { category: 'community', scoreA: 9.5, scoreB: 6, weight: 0.15, normalizedScoreA: 0.95, normalizedScoreB: 0.6 },
+  { category: 'learning_curve', scoreA: 6, scoreB: 9, weight: 0.15, normalizedScoreA: 0.6, normalizedScoreB: 0.9 },
+  { category: 'ecosystem', scoreA: 10, scoreB: 7, weight: 0.15, normalizedScoreA: 1.0, normalizedScoreB: 0.7 },
+  { category: 'maturity', scoreA: 9, scoreB: 7, weight: 0.1, normalizedScoreA: 0.9, normalizedScoreB: 0.7 },
 ];
 
 const singleScore: CategoryScore[] = [
-  { category: 'developer_experience', scoreA: 7.5, scoreB: 6.0, weight: 0.25, normalizedScoreA: 7.5, normalizedScoreB: 6.0 },
+  { category: 'developer_experience', scoreA: 7.5, scoreB: 6.0, weight: 0.25, normalizedScoreA: 0.75, normalizedScoreB: 0.60 },
 ];
 
 describe('CategoryScoreBar', () => {
   it('renders one row for each category score', () => {
     render(<CategoryScoreBar scores={sixScores} nameA="React" nameB="Svelte" />);
+    // getAllByRole('row') includes the header row in the table (1 header + 6 data)
     const rows = screen.getAllByRole('row');
-    expect(rows).toHaveLength(6);
+    expect(rows).toHaveLength(7);
   });
 
   it('displays human-readable category label instead of raw key', () => {
@@ -35,10 +38,11 @@ describe('CategoryScoreBar', () => {
     expect(screen.getByText('Svelte')).toBeInTheDocument();
   });
 
-  it('displays numeric scores for each row', () => {
+  it('displays numeric scores scaled to 0–10 with one decimal place', () => {
     render(<CategoryScoreBar scores={singleScore} nameA="React" nameB="Svelte" />);
+    // 0.75 * 10 = 7.5, 0.60 * 10 = 6.0
     expect(screen.getByText('7.5')).toBeInTheDocument();
-    expect(screen.getByText('6')).toBeInTheDocument();
+    expect(screen.getByText('6.0')).toBeInTheDocument();
   });
 
   it('applies a wider bar to the higher-scoring technology', () => {
@@ -48,7 +52,7 @@ describe('CategoryScoreBar', () => {
     const barB = bars[1] as HTMLElement;
     const widthA = parseFloat(barA.style.width);
     const widthB = parseFloat(barB.style.width);
-    // normalizedScoreA (7.5) > normalizedScoreB (6.0), so bar A should be wider
+    // normalizedScoreA (0.75) > normalizedScoreB (0.60), so bar A should be wider
     expect(widthA).toBeGreaterThan(widthB);
   });
 

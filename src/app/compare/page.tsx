@@ -121,7 +121,7 @@ function TechCard({ tech, overallScore, winner }: TechCardProps): React.ReactEle
           <span className="text-xs text-zinc-400">{tech.category}</span>
         </div>
         <div className="text-right">
-          <span className="text-2xl font-bold text-zinc-800">{overallScore}</span>
+          <span className="text-2xl font-bold text-zinc-800">{(overallScore * 10).toFixed(1)}</span>
           <span className="ml-0.5 text-xs text-zinc-400">/10</span>
           {winner && (
             <p className="mt-0.5 text-xs font-medium text-blue-600">Winner</p>

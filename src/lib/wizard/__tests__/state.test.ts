@@ -12,6 +12,7 @@ import {
   getCompletionPercentage,
 } from '../state';
 import { WIZARD_STEP_ID, WIZARD_PHASE } from '@/types/wizard';
+import type { WizardState } from '@/types/wizard';
 import { TOTAL_STEPS } from '../steps';
 
 describe('createInitialState', () => {
@@ -67,34 +68,34 @@ describe('setProjectInfo', () => {
 
 describe('setSelection', () => {
   it('sets a selection for the given step', () => {
-    const state = { ...createInitialState(), phase: WIZARD_PHASE.steps };
+    const state: WizardState = { ...createInitialState(), phase: WIZARD_PHASE.steps };
     const next = setSelection(state, WIZARD_STEP_ID.frontend, 'Next.js');
     expect(next.selections.frontend).toBe('Next.js');
   });
 
   it('does not mutate the original state', () => {
-    const state = { ...createInitialState(), phase: WIZARD_PHASE.steps };
+    const state: WizardState = { ...createInitialState(), phase: WIZARD_PHASE.steps };
     const original = state.selections.frontend;
     setSelection(state, WIZARD_STEP_ID.frontend, 'Next.js');
     expect(state.selections.frontend).toBe(original);
   });
 
   it('is idempotent when called twice with the same value', () => {
-    const state = { ...createInitialState(), phase: WIZARD_PHASE.steps };
+    const state: WizardState = { ...createInitialState(), phase: WIZARD_PHASE.steps };
     const next1 = setSelection(state, WIZARD_STEP_ID.frontend, 'React');
     const next2 = setSelection(next1, WIZARD_STEP_ID.frontend, 'React');
     expect(next2.selections.frontend).toBe('React');
   });
 
   it('overwrites a previous selection', () => {
-    const state = { ...createInitialState(), phase: WIZARD_PHASE.steps };
+    const state: WizardState = { ...createInitialState(), phase: WIZARD_PHASE.steps };
     const next1 = setSelection(state, WIZARD_STEP_ID.frontend, 'React');
     const next2 = setSelection(next1, WIZARD_STEP_ID.frontend, 'Vue');
     expect(next2.selections.frontend).toBe('Vue');
   });
 
   it('preserves other selections when setting one', () => {
-    let state = { ...createInitialState(), phase: WIZARD_PHASE.steps };
+    let state: WizardState = { ...createInitialState(), phase: WIZARD_PHASE.steps };
     state = setSelection(state, WIZARD_STEP_ID.backend, 'Node.js');
     const next = setSelection(state, WIZARD_STEP_ID.frontend, 'React');
     expect(next.selections.backend).toBe('Node.js');
@@ -103,23 +104,23 @@ describe('setSelection', () => {
 
 describe('goToStep', () => {
   it('moves to the given index', () => {
-    const state = { ...createInitialState(), phase: WIZARD_PHASE.steps };
+    const state: WizardState = { ...createInitialState(), phase: WIZARD_PHASE.steps };
     const next = goToStep(state, 3);
     expect(next.currentStepIndex).toBe(3);
   });
 
   it('clamps negative index to 0', () => {
-    const state = { ...createInitialState(), phase: WIZARD_PHASE.steps };
+    const state: WizardState = { ...createInitialState(), phase: WIZARD_PHASE.steps };
     expect(goToStep(state, -1).currentStepIndex).toBe(0);
   });
 
   it('clamps out-of-bounds index to last step', () => {
-    const state = { ...createInitialState(), phase: WIZARD_PHASE.steps };
+    const state: WizardState = { ...createInitialState(), phase: WIZARD_PHASE.steps };
     expect(goToStep(state, 999).currentStepIndex).toBe(TOTAL_STEPS - 1);
   });
 
   it('does not mutate the original state', () => {
-    const state = { ...createInitialState(), phase: WIZARD_PHASE.steps, currentStepIndex: 0 };
+    const state: WizardState = { ...createInitialState(), phase: WIZARD_PHASE.steps, currentStepIndex: 0 };
     goToStep(state, 5);
     expect(state.currentStepIndex).toBe(0);
   });
@@ -127,12 +128,12 @@ describe('goToStep', () => {
 
 describe('goToNextStep', () => {
   it('increments step index', () => {
-    const state = { ...createInitialState(), phase: WIZARD_PHASE.steps, currentStepIndex: 2 };
+    const state: WizardState = { ...createInitialState(), phase: WIZARD_PHASE.steps, currentStepIndex: 2 };
     expect(goToNextStep(state).currentStepIndex).toBe(3);
   });
 
   it('advances phase to summary at the last step', () => {
-    const state = {
+    const state: WizardState = {
       ...createInitialState(),
       phase: WIZARD_PHASE.steps,
       currentStepIndex: TOTAL_STEPS - 1,
@@ -142,7 +143,7 @@ describe('goToNextStep', () => {
   });
 
   it('does not go beyond last step index', () => {
-    const state = {
+    const state: WizardState = {
       ...createInitialState(),
       phase: WIZARD_PHASE.steps,
       currentStepIndex: TOTAL_STEPS - 1,
@@ -154,17 +155,17 @@ describe('goToNextStep', () => {
 
 describe('goToPreviousStep', () => {
   it('decrements step index', () => {
-    const state = { ...createInitialState(), phase: WIZARD_PHASE.steps, currentStepIndex: 3 };
+    const state: WizardState = { ...createInitialState(), phase: WIZARD_PHASE.steps, currentStepIndex: 3 };
     expect(goToPreviousStep(state).currentStepIndex).toBe(2);
   });
 
   it('does not go below 0', () => {
-    const state = { ...createInitialState(), phase: WIZARD_PHASE.steps, currentStepIndex: 0 };
+    const state: WizardState = { ...createInitialState(), phase: WIZARD_PHASE.steps, currentStepIndex: 0 };
     expect(goToPreviousStep(state).currentStepIndex).toBe(0);
   });
 
   it('transitions from summary back to last steps step', () => {
-    const state = {
+    const state: WizardState = {
       ...createInitialState(),
       phase: WIZARD_PHASE.summary,
       currentStepIndex: TOTAL_STEPS - 1,
@@ -182,7 +183,7 @@ describe('isStepComplete', () => {
   });
 
   it('returns true after a selection is made', () => {
-    let state = { ...createInitialState(), phase: WIZARD_PHASE.steps };
+    let state: WizardState = { ...createInitialState(), phase: WIZARD_PHASE.steps };
     state = setSelection(state, WIZARD_STEP_ID.frontend, 'React');
     expect(isStepComplete(state, WIZARD_STEP_ID.frontend)).toBe(true);
   });
@@ -190,12 +191,12 @@ describe('isStepComplete', () => {
 
 describe('canProceed', () => {
   it('returns false when the current step has no selection', () => {
-    const state = { ...createInitialState(), phase: WIZARD_PHASE.steps, currentStepIndex: 0 };
+    const state: WizardState = { ...createInitialState(), phase: WIZARD_PHASE.steps, currentStepIndex: 0 };
     expect(canProceed(state)).toBe(false);
   });
 
   it('returns true when the current step has a selection', () => {
-    let state = { ...createInitialState(), phase: WIZARD_PHASE.steps, currentStepIndex: 0 };
+    let state: WizardState = { ...createInitialState(), phase: WIZARD_PHASE.steps, currentStepIndex: 0 };
     state = setSelection(state, WIZARD_STEP_ID.projectType, 'web-app');
     expect(canProceed(state)).toBe(true);
   });
@@ -208,7 +209,7 @@ describe('getCompletionPercentage', () => {
   });
 
   it('returns 100 when all steps have selections', () => {
-    let state = { ...createInitialState(), phase: WIZARD_PHASE.steps };
+    let state: WizardState = { ...createInitialState(), phase: WIZARD_PHASE.steps };
     state = setSelection(state, WIZARD_STEP_ID.projectType, 'web-app');
     state = setSelection(state, WIZARD_STEP_ID.architecture, 'monolith');
     state = setSelection(state, WIZARD_STEP_ID.frontend, 'Next.js');
@@ -223,7 +224,7 @@ describe('getCompletionPercentage', () => {
   });
 
   it('returns 50 when half the steps have selections', () => {
-    let state = { ...createInitialState(), phase: WIZARD_PHASE.steps };
+    let state: WizardState = { ...createInitialState(), phase: WIZARD_PHASE.steps };
     state = setSelection(state, WIZARD_STEP_ID.projectType, 'web-app');
     state = setSelection(state, WIZARD_STEP_ID.architecture, 'monolith');
     state = setSelection(state, WIZARD_STEP_ID.frontend, 'Next.js');

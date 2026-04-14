@@ -53,11 +53,7 @@ function makeDeleteChain(resolvedValue: { error: unknown }) {
     eq: vi.fn(),
   };
   chain.delete.mockReturnValue(chain);
-  // Each .eq() call returns the chain; the last one resolves
-  chain.eq.mockReturnValue(chain);
-  // Override: make the chain itself thenable for the last eq
-  (chain as unknown as Promise<unknown>)[Symbol.iterator] = undefined as never;
-  // Use a custom approach: last eq resolves the promise
+  // Each .eq() call returns the chain; after two calls the chain resolves
   let eqCount = 0;
   chain.eq.mockImplementation(() => {
     eqCount++;

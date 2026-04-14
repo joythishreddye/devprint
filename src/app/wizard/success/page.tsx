@@ -1,6 +1,7 @@
 import { notFound } from 'next/navigation';
 import Link from 'next/link';
 import type { Metadata } from 'next';
+import { z } from 'zod';
 import { createServerClient } from '@/lib/supabase/server';
 import type { GenerateConfigResult } from '@/types/generators';
 
@@ -14,13 +15,20 @@ interface WizardSuccessPageProps {
 
 export default async function WizardSuccessPage({ searchParams }: WizardSuccessPageProps) {
   const { planId } = await searchParams;
-  if (!planId) notFound();
+  const planIdResult = z.string().uuid().safeParse(planId);
+  if (!planIdResult.success) notFound();
 
   const supabase = await createServerClient();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+  if (!user) notFound();
+
   const { data, error } = await supabase
     .from('project_plans')
     .select('id, name, description, config_data, created_at')
-    .eq('id', planId)
+    .eq('id', planIdResult.data)
+    .eq('user_id', user.id)
     .single();
 
   if (error || !data) notFound();

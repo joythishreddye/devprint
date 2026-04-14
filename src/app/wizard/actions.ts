@@ -6,19 +6,21 @@ import { mapWizardToProjectSelections } from '@/lib/wizard/mapper';
 import { generateAllConfigs } from '@/lib/generators/generate-config';
 import type { ApiResponse } from '@/types/api';
 
+const selectionField = z.string().max(100).nullable();
+
 const wizardSelectionsSchema = z.object({
   projectName: z.string().min(1, 'Project name is required').max(100),
   description: z.string().max(500).default(''),
-  projectType: z.string().nullable(),
-  architecture: z.string().nullable(),
-  frontend: z.string().nullable(),
-  styling: z.string().nullable(),
-  backend: z.string().nullable(),
-  database: z.string().nullable(),
-  auth: z.string().nullable(),
-  hosting: z.string().nullable(),
-  cicd: z.string().nullable(),
-  testing: z.string().nullable(),
+  projectType: selectionField,
+  architecture: selectionField,
+  frontend: selectionField,
+  styling: selectionField,
+  backend: selectionField,
+  database: selectionField,
+  auth: selectionField,
+  hosting: selectionField,
+  cicd: selectionField,
+  testing: selectionField,
 });
 
 export async function saveWizardPlan(
@@ -43,6 +45,16 @@ export async function saveWizardPlan(
     data: { user },
   } = await supabase.auth.getUser();
   if (!user) return { success: false, error: 'Unauthorized' };
+
+  const { count } = await supabase
+    .from('project_plans')
+    .select('id', { count: 'exact', head: true })
+    .eq('user_id', user.id)
+    .gte('created_at', new Date(Date.now() - 60_000).toISOString());
+
+  if ((count ?? 0) >= 10) {
+    return { success: false, error: 'Too many plans created recently. Please wait before trying again.' };
+  }
 
   const projectSelections = mapWizardToProjectSelections({
     phase: 'steps',

@@ -19,7 +19,7 @@ export function WizardSummary() {
         setError(result.error);
         return;
       }
-      window.location.href = `/wizard/success?planId=${result.data.planId}`;
+      window.location.href = `/wizard/success?planId=${encodeURIComponent(result.data.planId)}`;
     });
   }
 

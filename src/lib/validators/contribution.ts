@@ -1,27 +1,22 @@
 import { z } from 'zod';
 
-const urlOrNull = z
+/** Transforms empty string to null, then validates as URL if non-null */
+const optionalUrl = z
   .string()
   .transform((v) => (v === '' ? null : v))
-  .pipe(z.string().url().nullable());
+  .pipe(z.string().url().nullable())
+  .nullable()
+  .default(null);
 
-const nullableUrl = z.union([z.null(), urlOrNull]);
-
-const stringOrNull = z
+/** Transforms empty string to null */
+const optionalString = z
   .string()
   .transform((v) => (v === '' ? null : v))
-  .pipe(z.string().nullable());
+  .pipe(z.string().nullable())
+  .nullable()
+  .default(null);
 
-const intOrNull = z
-  .number()
-  .int()
-  .min(0)
-  .nullable();
-
-const arrayOfStrings = z
-  .array(z.string().min(1).max(200))
-  .min(1)
-  .max(10);
+const arrayOfStrings = z.array(z.string().min(1).max(200)).min(1).max(10);
 
 export const technologySubmissionSchema = z.object({
   name: z.string().min(1).max(100),
@@ -32,17 +27,12 @@ export const technologySubmissionSchema = z.object({
     .regex(/^[a-z0-9]+(?:-[a-z0-9]+)*$/, 'Slug must be lowercase kebab-case (e.g. "my-tech")'),
   category: z.string().min(1).max(50),
   description: z.string().min(1).max(2000),
-  logo_url: z
-    .string()
-    .transform((v) => (v === '' ? null : v))
-    .pipe(z.string().url().nullable())
-    .nullable()
-    .default(null),
-  website_url: nullableUrl.nullable().default(null),
-  github_url: nullableUrl.nullable().default(null),
-  npm_package: stringOrNull.nullable().default(null),
-  github_stars: intOrNull.default(null),
-  npm_weekly_downloads: intOrNull.default(null),
+  logo_url: optionalUrl,
+  website_url: optionalUrl,
+  github_url: optionalUrl,
+  npm_package: optionalString,
+  github_stars: z.number().int().min(0).nullable().default(null),
+  npm_weekly_downloads: z.number().int().min(0).nullable().default(null),
   pros: arrayOfStrings,
   cons: arrayOfStrings,
   best_for: arrayOfStrings,

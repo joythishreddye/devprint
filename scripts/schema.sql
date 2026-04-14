@@ -115,9 +115,12 @@ create policy "Profiles are viewable by everyone"
   on user_profiles for select
   using (true);
 
+-- Users can update their own profile but cannot change their own role
+-- with check forces role to equal its current value, preventing self-elevation via direct REST calls
 create policy "Users can update own profile"
   on user_profiles for update
-  using (auth.uid() = id);
+  using (auth.uid() = id)
+  with check (role = (select role from user_profiles where id = auth.uid()));
 
 create policy "Users can insert own profile"
   on user_profiles for insert

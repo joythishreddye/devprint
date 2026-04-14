@@ -26,11 +26,16 @@ async function requireAdmin(): Promise<
 
   if (!user) return { error: 'Unauthorized' };
 
-  const { data: profile } = await supabase
+  const { data: profile, error: profileError } = await supabase
     .from('user_profiles')
     .select('role')
     .eq('id', user.id)
     .maybeSingle();
+
+  if (profileError) {
+    console.error('requireAdmin: profile lookup failed', profileError);
+    return { error: 'Forbidden' };
+  }
 
   if (profile?.role !== 'admin') return { error: 'Forbidden' };
 

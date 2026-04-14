@@ -150,10 +150,14 @@ describe('promoteUserSchema', () => {
     expect(promoteUserSchema.safeParse({ ...VALID, userId: 'not-a-uuid' }).success).toBe(false);
   });
 
-  it('accepts all valid roles', () => {
-    for (const role of ['developer', 'contributor', 'admin'] as const) {
+  it('accepts contributor and admin as valid promotion targets', () => {
+    for (const role of ['contributor', 'admin'] as const) {
       expect(promoteUserSchema.safeParse({ ...VALID, newRole: role }).success).toBe(true);
     }
+  });
+
+  it('rejects developer as newRole (demotion not allowed)', () => {
+    expect(promoteUserSchema.safeParse({ ...VALID, newRole: 'developer' }).success).toBe(false);
   });
 
   it('rejects invalid role', () => {

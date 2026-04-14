@@ -43,12 +43,18 @@ export const technologyFormSchema = z.object({
   learning_curve: z.enum(['beginner', 'intermediate', 'advanced']),
   community_size: z.enum(['small', 'medium', 'large']),
   maturity: z.enum(['emerging', 'growing', 'mature', 'declining']),
-  metadata: z.record(z.string(), z.unknown()).default({}),
+  metadata: z
+    .record(
+      z.string().max(50),
+      z.union([z.string().max(500), z.number(), z.boolean(), z.null()]),
+    )
+    .default({}),
 });
 
 export const promoteUserSchema = z.object({
   userId: z.string().uuid('Invalid user ID'),
-  newRole: z.enum(['developer', 'contributor', 'admin']),
+  // 'developer' excluded — promotion only, never demotion
+  newRole: z.enum(['contributor', 'admin']),
 });
 
 export type ReviewSubmissionInput = z.infer<typeof reviewSubmissionSchema>;

@@ -123,6 +123,16 @@ create policy "Users can insert own profile"
   on user_profiles for insert
   with check (auth.uid() = id);
 
+create policy "Admins can update any user profile"
+  on user_profiles for update
+  using (
+    exists (
+      select 1 from user_profiles
+      where user_profiles.id = auth.uid()
+      and user_profiles.role = 'admin'
+    )
+  );
+
 -- Project plans: users can manage their own plans
 create policy "Users can manage own plans"
   on project_plans for all

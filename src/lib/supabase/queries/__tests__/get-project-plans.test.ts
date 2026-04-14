@@ -47,21 +47,15 @@ function makeMockChain(resolvedValue: { data: unknown; error: unknown }) {
   return chain;
 }
 
-function makeDeleteChain(resolvedValue: { error: unknown }) {
+function makeDeleteChain(resolvedValue: { data: unknown; error: unknown }) {
   const chain: Record<string, Mock> = {
     delete: vi.fn(),
     eq: vi.fn(),
+    select: vi.fn(),
   };
   chain.delete.mockReturnValue(chain);
-  // Each .eq() call returns the chain; after two calls the chain resolves
-  let eqCount = 0;
-  chain.eq.mockImplementation(() => {
-    eqCount++;
-    if (eqCount >= 2) {
-      return Promise.resolve(resolvedValue);
-    }
-    return chain;
-  });
+  chain.eq.mockReturnValue(chain);
+  chain.select.mockResolvedValue(resolvedValue);
   return chain;
 }
 
@@ -190,14 +184,22 @@ describe('getProjectPlanById', () => {
 
 describe('deleteProjectPlan', () => {
   it('returns success: true when deletion succeeds', async () => {
-    const chain = makeDeleteChain({ error: null });
+    const chain = makeDeleteChain({ data: [{ id: 'plan-1' }], error: null });
     mockClient(chain);
     const result = await deleteProjectPlan('plan-1', 'user-1');
     expect(result).toEqual({ success: true });
   });
 
   it('returns success: false with error message on Supabase error', async () => {
-    const chain = makeDeleteChain({ error: { message: 'delete failed' } });
+    const chain = makeDeleteChain({ data: null, error: { message: 'delete failed' } });
+    mockClient(chain);
+    const result = await deleteProjectPlan('plan-1', 'user-1');
+    expect(result.success).toBe(false);
+    expect(result.error).toBeDefined();
+  });
+
+  it('returns success: false when no rows were deleted (plan not found)', async () => {
+    const chain = makeDeleteChain({ data: [], error: null });
     mockClient(chain);
     const result = await deleteProjectPlan('plan-1', 'user-1');
     expect(result.success).toBe(false);
@@ -205,13 +207,13 @@ describe('deleteProjectPlan', () => {
   });
 
   it('does not throw on error', async () => {
-    const chain = makeDeleteChain({ error: { message: 'db error' } });
+    const chain = makeDeleteChain({ data: null, error: { message: 'db error' } });
     mockClient(chain);
     await expect(deleteProjectPlan('plan-1', 'user-1')).resolves.not.toThrow();
   });
 
   it('filters by both plan id and user_id', async () => {
-    const chain = makeDeleteChain({ error: null });
+    const chain = makeDeleteChain({ data: [{ id: 'plan-1' }], error: null });
     mockClient(chain);
     await deleteProjectPlan('plan-1', 'user-1');
     const eqCalls = chain.eq.mock.calls;

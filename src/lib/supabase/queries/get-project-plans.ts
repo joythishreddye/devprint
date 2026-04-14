@@ -47,15 +47,20 @@ export async function deleteProjectPlan(
 ): Promise<{ success: boolean; error?: string }> {
   const supabase = await createServerClient();
 
-  const { error } = await supabase
+  const { data, error } = await supabase
     .from('project_plans')
     .delete()
     .eq('id', planId)
-    .eq('user_id', userId);
+    .eq('user_id', userId)
+    .select('id');
 
   if (error) {
     console.error('Failed to delete project plan:', error);
     return { success: false, error: 'Failed to delete plan. Please try again.' };
+  }
+
+  if (!data || data.length === 0) {
+    return { success: false, error: 'Plan not found or already deleted.' };
   }
 
   return { success: true };

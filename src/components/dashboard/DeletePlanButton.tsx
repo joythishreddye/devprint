@@ -10,24 +10,38 @@ export interface DeletePlanButtonProps {
 
 export function DeletePlanButton({ planId, planName }: DeletePlanButtonProps) {
   const [confirming, setConfirming] = useState(false);
+  const [error, setError] = useState<string | null>(null);
   const [isPending, startTransition] = useTransition();
 
   function handleDeleteClick(e: React.MouseEvent) {
     e.preventDefault();
+    setError(null);
     setConfirming(true);
   }
 
   function handleCancel(e: React.MouseEvent) {
     e.preventDefault();
     setConfirming(false);
+    setError(null);
   }
 
   function handleConfirm(e: React.MouseEvent) {
     e.preventDefault();
     startTransition(async () => {
-      await deletePlanAction(planId);
+      const result = await deletePlanAction(planId);
+      if (!result.success) {
+        setError(result.error ?? 'Delete failed. Please try again.');
+        setConfirming(false);
+        return;
+      }
       setConfirming(false);
     });
+  }
+
+  if (error) {
+    return (
+      <span className="text-xs text-red-600">{error}</span>
+    );
   }
 
   if (confirming) {

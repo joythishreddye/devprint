@@ -5,8 +5,21 @@ import Link from 'next/link';
 import { createServerClient } from '@/lib/supabase/server';
 import { getProjectPlanById } from '@/lib/supabase/queries/get-project-plans';
 import { planIdSchema } from '@/lib/validators/plan-id';
+import { z } from 'zod';
 import { ConfigFileDisplay } from '@/components/dashboard/ConfigFileDisplay';
 import type { GenerateConfigResult } from '@/types/generators';
+import { CONFIG_FORMAT } from '@/types/generators';
+
+const generatedConfigSchema = z.object({
+  format: z.enum([CONFIG_FORMAT.claude, CONFIG_FORMAT.gemini, CONFIG_FORMAT.copilot]),
+  filename: z.string().min(1).max(200),
+  content: z.string().max(500_000),
+});
+
+const configResultSchema = z.object({
+  projectName: z.string().min(1).max(200),
+  configs: z.array(generatedConfigSchema),
+});
 
 interface PlanDetailPageProps {
   params: Promise<{ planId: string }>;
@@ -14,9 +27,8 @@ interface PlanDetailPageProps {
 
 
 function parseConfigData(raw: Record<string, unknown>): GenerateConfigResult | null {
-  if (!raw || typeof raw !== 'object') return null;
-  if (!Array.isArray(raw.configs)) return null;
-  return raw as unknown as GenerateConfigResult;
+  const result = configResultSchema.safeParse(raw);
+  return result.success ? result.data : null;
 }
 
 export default async function PlanDetailPage({ params }: PlanDetailPageProps) {

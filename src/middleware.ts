@@ -10,6 +10,13 @@ export async function middleware(request: NextRequest): Promise<NextResponse> {
   const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
 
   if (!supabaseUrl || !supabaseAnonKey) {
+    const { pathname } = request.nextUrl;
+    const isProtected = PROTECTED_PATHS.some((path) => pathname.startsWith(path));
+    if (isProtected) {
+      const signInUrl = request.nextUrl.clone();
+      signInUrl.pathname = '/sign-in';
+      return NextResponse.redirect(signInUrl);
+    }
     return response;
   }
 

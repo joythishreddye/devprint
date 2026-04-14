@@ -329,6 +329,7 @@ function ArrayTextarea({ label, hint, value, onChange, required }: ArrayTextarea
         value={value}
         onChange={(e) => onChange(e.target.value)}
         rows={3}
+        maxLength={2500}
         className={inputClass}
         placeholder="One item per line"
       />

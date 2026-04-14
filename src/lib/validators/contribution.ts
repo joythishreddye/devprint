@@ -8,13 +8,17 @@ const optionalUrl = z
   .nullable()
   .default(null);
 
-/** Transforms empty string to null */
-const optionalString = z
-  .string()
-  .transform((v) => (v === '' ? null : v))
-  .pipe(z.string().nullable())
-  .nullable()
-  .default(null);
+/** Transforms empty string to null, with optional max length */
+function optionalStringWithMax(max: number) {
+  return z
+    .string()
+    .transform((v) => (v === '' ? null : v))
+    .pipe(z.string().max(max).nullable())
+    .nullable()
+    .default(null);
+}
+
+const optionalString = optionalStringWithMax(214);
 
 const arrayOfStrings = z.array(z.string().min(1).max(200)).min(1).max(10);
 

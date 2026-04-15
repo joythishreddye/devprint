@@ -35,10 +35,22 @@ export default async function Header() {
             {user ? (
               <>
                 <Link
+                  href="/dashboard"
+                  className="text-sm text-zinc-600 hover:text-zinc-900 transition-colors"
+                >
+                  Dashboard
+                </Link>
+                <Link
                   href="/wizard"
                   className="text-sm text-zinc-600 hover:text-zinc-900 transition-colors"
                 >
                   Wizard
+                </Link>
+                <Link
+                  href="/contributor"
+                  className="text-sm text-zinc-600 hover:text-zinc-900 transition-colors"
+                >
+                  Contribute
                 </Link>
                 <SignOutButton />
               </>

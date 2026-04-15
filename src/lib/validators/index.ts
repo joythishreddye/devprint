@@ -34,3 +34,6 @@ export type { TechnologySubmissionInput } from './contribution';
 
 export { reviewSubmissionSchema, technologyFormSchema, promoteUserSchema } from './admin';
 export type { ReviewSubmissionInput, TechnologyFormInput, PromoteUserInput } from './admin';
+
+export { technologiesQuerySchema, technologySlugSchema, compareQuerySchema } from './api-params';
+export type { TechnologiesQuery, TechnologySlugParam, CompareQuery } from './api-params';

@@ -1,6 +1,6 @@
 'use server';
 
-import { revalidatePath } from 'next/cache';
+import { revalidatePath, revalidateTag } from 'next/cache';
 import { z } from 'zod';
 import { createServerClient } from '@/lib/supabase/server';
 import {
@@ -135,6 +135,7 @@ export async function reviewSubmissionAction(
   }
 
   revalidatePath('/admin');
+  if (action === 'approve') revalidateTag('technologies', {});
   return { success: true, data: null };
 }
 
@@ -185,6 +186,7 @@ export async function createTechnologyAction(
   }
 
   revalidatePath('/admin');
+  revalidateTag('technologies', {});
   return { success: true, data };
 }
 
@@ -237,6 +239,7 @@ export async function updateTechnologyAction(
   }
 
   revalidatePath('/admin');
+  revalidateTag('technologies', {});
   return { success: true, data };
 }
 
@@ -261,6 +264,7 @@ export async function deleteTechnologyAction(
   }
 
   revalidatePath('/admin');
+  revalidateTag('technologies', {});
   return { success: true, data: null };
 }
 

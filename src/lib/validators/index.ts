@@ -1,3 +1,34 @@
+export {
+  projectTypeSchema,
+  architectureSchema,
+  frontendSchema,
+  stylingSchema,
+  backendSchema,
+  databaseSchema,
+  authSchema,
+  hostingSchema,
+  cicdSchema,
+  testingSchema,
+  wizardProjectInfoSchema,
+  wizardSelectionsSchema,
+  wizardSubmissionSchema,
+} from './wizard-schema';
+export type {
+  ProjectType,
+  Architecture,
+  Frontend,
+  Styling,
+  Backend,
+  Database,
+  Auth,
+  Hosting,
+  Cicd,
+  Testing,
+  WizardProjectInfoInput,
+  WizardSelectionsInput,
+  WizardSubmissionInput,
+} from './wizard-schema';
+
 export { technologySubmissionSchema } from './contribution';
 export type { TechnologySubmissionInput } from './contribution';
 

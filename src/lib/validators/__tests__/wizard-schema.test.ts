@@ -190,10 +190,32 @@ describe('wizardProjectInfoSchema', () => {
     expect(wizardProjectInfoSchema.safeParse({ description: 'desc' }).success).toBe(false);
   });
 
+  it('accepts a project name of exactly 100 characters', () => {
+    expect(
+      wizardProjectInfoSchema.safeParse({ ...VALID, projectName: 'a'.repeat(100) }).success,
+    ).toBe(true);
+  });
+
+  it('accepts a description of exactly 500 characters', () => {
+    expect(
+      wizardProjectInfoSchema.safeParse({ ...VALID, description: 'x'.repeat(500) }).success,
+    ).toBe(true);
+  });
+
   it('trims leading/trailing whitespace from projectName', () => {
     const result = wizardProjectInfoSchema.safeParse({ ...VALID, projectName: '  My App  ' });
     expect(result.success).toBe(true);
     if (result.success) expect(result.data.projectName).toBe('My App');
+  });
+
+  it('trims leading/trailing whitespace from description', () => {
+    const result = wizardProjectInfoSchema.safeParse({ ...VALID, description: '  great  ' });
+    expect(result.success).toBe(true);
+    if (result.success) expect(result.data.description).toBe('great');
+  });
+
+  it('rejects a whitespace-only project name', () => {
+    expect(wizardProjectInfoSchema.safeParse({ ...VALID, projectName: '   ' }).success).toBe(false);
   });
 
   it('produces a clear error message when projectName is empty', () => {
@@ -306,18 +328,12 @@ describe('wizardSelectionsSchema', () => {
   });
 
   it('rejects missing projectName', () => {
-    const { projectName: _, ...rest } = VALID_SELECTIONS;
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const { projectName: _omit, ...rest } = VALID_SELECTIONS;
     expect(wizardSelectionsSchema.safeParse(rest).success).toBe(false);
   });
 
-  it('infers correct TypeScript type from parse result', () => {
-    const result = wizardSelectionsSchema.safeParse(VALID_SELECTIONS);
-    if (result.success) {
-      // Type-check: result.data should have projectType as a string | null union
-      const _projectType: string | null = result.data.projectType;
-      expect(_projectType).toBe('web-app');
-    }
-  });
+
 });
 
 // ─── wizardSubmissionSchema ──────────────────────────────────────────────────

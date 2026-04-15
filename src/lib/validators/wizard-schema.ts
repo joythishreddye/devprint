@@ -2,100 +2,55 @@ import { z } from 'zod';
 
 // ─── Per-step enum schemas ────────────────────────────────────────────────────
 
-export const projectTypeSchema = z.enum([
-  'web-app',
-  'api-service',
-  'mobile-app',
-  'static-site',
-  'cli-tool',
-  'monorepo',
-]);
+export const projectTypeSchema = z.enum(
+  ['web-app', 'api-service', 'mobile-app', 'static-site', 'cli-tool', 'monorepo'],
+  { error: 'Invalid project type' },
+);
 
-export const architectureSchema = z.enum([
-  'monolith',
-  'microservices',
-  'serverless',
-  'jamstack',
-  'modular-monolith',
-]);
+export const architectureSchema = z.enum(
+  ['monolith', 'microservices', 'serverless', 'jamstack', 'modular-monolith'],
+  { error: 'Invalid architecture' },
+);
 
-export const frontendSchema = z.enum([
-  'Next.js',
-  'React',
-  'Vue',
-  'SvelteKit',
-  'Nuxt',
-  'Angular',
-  'Astro',
-  'None',
-]);
+export const frontendSchema = z.enum(
+  ['Next.js', 'React', 'Vue', 'SvelteKit', 'Nuxt', 'Angular', 'Astro', 'None'],
+  { error: 'Invalid frontend framework' },
+);
 
-export const stylingSchema = z.enum([
-  'Tailwind CSS',
-  'CSS Modules',
-  'Styled Components',
-  'Sass',
-  'Vanilla CSS',
-  'None',
-]);
+export const stylingSchema = z.enum(
+  ['Tailwind CSS', 'CSS Modules', 'Styled Components', 'Sass', 'Vanilla CSS', 'None'],
+  { error: 'Invalid styling option' },
+);
 
-export const backendSchema = z.enum([
-  'Node.js',
-  'Express',
-  'Fastify',
-  'Django',
-  'Flask',
-  'Rails',
-  'Go',
-  'None',
-]);
+export const backendSchema = z.enum(
+  ['Node.js', 'Express', 'Fastify', 'Django', 'Flask', 'Rails', 'Go', 'None'],
+  { error: 'Invalid backend' },
+);
 
-export const databaseSchema = z.enum([
-  'PostgreSQL',
-  'MySQL',
-  'MongoDB',
-  'SQLite',
-  'Redis',
-  'Supabase',
-  'PlanetScale',
-  'None',
-]);
+export const databaseSchema = z.enum(
+  ['PostgreSQL', 'MySQL', 'MongoDB', 'SQLite', 'Redis', 'Supabase', 'PlanetScale', 'None'],
+  { error: 'Invalid database' },
+);
 
-export const authSchema = z.enum([
-  'Supabase Auth',
-  'NextAuth.js',
-  'Clerk',
-  'Auth0',
-  'Firebase Auth',
-  'Custom JWT',
-  'None',
-]);
+export const authSchema = z.enum(
+  ['Supabase Auth', 'NextAuth.js', 'Clerk', 'Auth0', 'Firebase Auth', 'Custom JWT', 'None'],
+  { error: 'Invalid auth strategy' },
+);
 
-export const hostingSchema = z.enum([
-  'Vercel',
-  'Netlify',
-  'AWS',
-  'Railway',
-  'Fly.io',
-  'DigitalOcean',
-  'Cloudflare Pages',
-]);
+export const hostingSchema = z.enum(
+  ['Vercel', 'Netlify', 'AWS', 'Railway', 'Fly.io', 'DigitalOcean', 'Cloudflare Pages'],
+  { error: 'Invalid hosting provider' },
+);
 
-export const cicdSchema = z.enum([
-  'GitHub Actions',
-  'GitLab CI',
-  'CircleCI',
-  'Jenkins',
-  'None',
-]);
+export const cicdSchema = z.enum(
+  ['GitHub Actions', 'GitLab CI', 'CircleCI', 'Jenkins', 'None'],
+  { error: 'Invalid CI/CD option' },
+);
 
-export const testingSchema = z.enum([
-  'Vitest',
-  'Jest',
-  'Playwright',
-  'Cypress',
-  'None',
-]);
+export const testingSchema = z.enum(
+  ['Vitest', 'Jest', 'Playwright', 'Cypress', 'None'],
+  { error: 'Invalid testing framework' },
+);
 
 // ─── Inferred enum types ──────────────────────────────────────────────────────
 
@@ -120,6 +75,7 @@ export const wizardProjectInfoSchema = z.object({
     .max(100, 'Project name must be 100 characters or fewer'),
   description: z
     .string()
+    .trim()
     .max(500, 'Description must be 500 characters or fewer')
     .default(''),
 });
@@ -128,22 +84,18 @@ export type WizardProjectInfoInput = z.infer<typeof wizardProjectInfoSchema>;
 
 // ─── Selections (all steps combined) ─────────────────────────────────────────
 
-/** A nullable wrapper: the user has not yet chosen a value for this step. */
-function nullableStep<T extends z.ZodTypeAny>(schema: T) {
-  return schema.nullable();
-}
-
+// Each step field is nullable: null means the user has not yet made a choice.
 export const wizardSelectionsSchema = wizardProjectInfoSchema.extend({
-  projectType: nullableStep(projectTypeSchema),
-  architecture: nullableStep(architectureSchema),
-  frontend: nullableStep(frontendSchema),
-  styling: nullableStep(stylingSchema),
-  backend: nullableStep(backendSchema),
-  database: nullableStep(databaseSchema),
-  auth: nullableStep(authSchema),
-  hosting: nullableStep(hostingSchema),
-  cicd: nullableStep(cicdSchema),
-  testing: nullableStep(testingSchema),
+  projectType: projectTypeSchema.nullable(),
+  architecture: architectureSchema.nullable(),
+  frontend: frontendSchema.nullable(),
+  styling: stylingSchema.nullable(),
+  backend: backendSchema.nullable(),
+  database: databaseSchema.nullable(),
+  auth: authSchema.nullable(),
+  hosting: hostingSchema.nullable(),
+  cicd: cicdSchema.nullable(),
+  testing: testingSchema.nullable(),
 });
 
 export type WizardSelectionsInput = z.infer<typeof wizardSelectionsSchema>;

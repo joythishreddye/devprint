@@ -17,17 +17,24 @@ test.describe('Sign-up flow', () => {
   test('shows field validation errors for empty submission', async ({ page }) => {
     await page.goto('/sign-up');
 
-    // Submit the form with an invalid email to trigger Zod field errors
+    // Use a syntactically valid email so the browser does not block submission
+    // with its native validation UI. The password is too short for Zod (min 8),
+    // so the server action returns a fieldError we can assert on.
     await page.fill('input[name="display_name"]', 'Test User');
-    await page.fill('input[name="email"]', 'not-an-email');
+    await page.fill('input[name="email"]', 'valid@example.com');
     await page.fill('input[name="password"]', 'short');
     await page.getByRole('button', { name: 'Create account' }).click();
 
-    // Wait for field error to appear (server action response)
+    // Wait for the Zod field error returned by the server action
     await expect(page.locator('p.text-red-600').first()).toBeVisible({ timeout: 10_000 });
   });
 
   test('submitting valid new email shows check-your-email confirmation', async ({ page }) => {
+    if (!process.env.NEXT_PUBLIC_SUPABASE_URL || !process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY) {
+      test.skip(true, 'Supabase env not configured — skipping live sign-up test');
+      return;
+    }
+
     await page.goto('/sign-up');
 
     const uniqueEmail = `e2e+${Date.now()}@example.com`;

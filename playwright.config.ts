@@ -21,12 +21,14 @@ export default defineConfig({
       use: { ...devices['Desktop Chrome'] },
     },
   ],
-  // Only start a dev server when running against localhost (not a remote preview URL)
+  // Only start a local server when running against localhost (not a remote preview URL).
+  // In CI use the pre-built production server (npm start); locally use the dev server.
   webServer: baseURL.startsWith('http://localhost')
     ? {
-        command: 'npm run dev',
+        command: process.env.CI ? 'npm start' : 'npm run dev',
         url: baseURL,
         reuseExistingServer: !process.env.CI,
+        timeout: 60_000,
       }
     : undefined,
 });

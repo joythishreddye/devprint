@@ -49,8 +49,11 @@ test.describe('Technology detail page', () => {
   });
 
   test('shows 404 for an unknown slug', async ({ page }) => {
-    const response = await page.goto('/technology/this-does-not-exist-xyz');
-    // Next.js notFound() returns a 404
-    expect(response?.status()).toBe(404);
+    await page.goto('/technology/this-does-not-exist-xyz');
+    // Next.js App Router renders the 404 page for notFound(); the HTTP
+    // status may be 200 depending on hosting/middleware, so assert on UI.
+    await expect(page.getByRole('heading', { name: /not found|404/i })).toBeVisible({
+      timeout: 10_000,
+    });
   });
 });

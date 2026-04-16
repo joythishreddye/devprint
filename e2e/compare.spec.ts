@@ -13,9 +13,10 @@ test.describe('Compare technologies page', () => {
   test('compares two technologies via URL params', async ({ page }) => {
     await page.goto('/compare?a=react&b=svelte');
 
-    // Both tech cards should appear with scores
-    await expect(page.getByRole('heading', { name: 'React' })).toBeVisible({ timeout: 10_000 });
-    await expect(page.getByRole('heading', { name: 'Svelte' })).toBeVisible();
+    // Both tech cards should appear with scores. Use level:2+exact to avoid
+    // matching section headings like "React Advantages".
+    await expect(page.getByRole('heading', { level: 2, name: 'React', exact: true })).toBeVisible({ timeout: 10_000 });
+    await expect(page.getByRole('heading', { level: 2, name: 'Svelte', exact: true })).toBeVisible();
 
     // Category scores section
     await expect(page.getByText('Category Scores')).toBeVisible();

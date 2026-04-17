@@ -15,51 +15,23 @@ Example: `/add-feature comparison engine that scores technologies by category we
 
 ---
 
-## Phase 0: Pre-flight Checks
+## Phase 0: Pre-flight
 
-Run these checks before touching any code. If any check fails, fix it and re-verify before continuing.
-
-**0a. Branch guard — never work directly on main or HW5.**
+**Branch guard** — never work directly on `main`:
 
 ```bash
 git branch --show-current
 ```
 
-If the current branch is `main` or `HW5`, stop and create a feature branch first:
+If on `main`, create a feature branch first: `git checkout -b feat/<feature-name>` (kebab-case).
 
-```bash
-git checkout -b feat/<feature-name>
-```
-
-Use kebab-case for the branch name matching the feature (e.g. `feat/comparison-engine`, `feat/config-generator`).
-
-**0b. ESM config check.**
-
-```bash
-node -e "import('./package.json', { assert: { type: 'json' } }).then(m => console.log(m.default.type))"
-```
-
-If output is not `module`, add `"type": "module"` to `package.json` at the top level before scripts.
-
-**0c. Coverage provider check.**
-
-```bash
-node -e "import('./node_modules/@vitest/coverage-istanbul/package.json', { assert: { type: 'json' } }).then(m => console.log('found:', m.default.version)).catch(() => console.log('MISSING'))"
-```
-
-If output is `MISSING`, install it:
-
-```bash
-npm install --save-dev @vitest/coverage-istanbul@^3.2.4 --legacy-peer-deps
-```
-
-**0d. Baseline test run.**
+**Baseline test run**:
 
 ```bash
 npm run test
 ```
 
-All existing tests must pass before starting. If any fail, investigate and fix before continuing — do not add new features on a broken baseline.
+All existing tests must pass before starting. Fix any failures before continuing.
 
 **Report**: List each check and its result before moving to Phase 1.
 
@@ -67,7 +39,7 @@ All existing tests must pass before starting. If any fail, investigate and fix b
 
 ## Phase 1: Plan
 
-Invoke the `planner` subagent with the following prompt structure (fill in `<FEATURE>` and `<ISSUE_DETAILS>`):
+Invoke the `planner` subagent with the following prompt (fill in `<FEATURE>` and `<ISSUE_DETAILS>`):
 
 ```
 Plan the implementation of: <FEATURE>
@@ -76,13 +48,10 @@ Issue details:
 <ISSUE_DETAILS>
 
 Constraints:
-- This is a src/lib/ pure TypeScript module — zero React/Next.js imports
+- Pure TypeScript module in src/lib/ — zero React/Next.js imports
 - Tests live in src/lib/<module>/__tests__/<file>.test.ts
 - All test files must start with // @vitest-environment node on line 1
-- Follow the project's immutable patterns (spread, map, filter — no mutation)
-- Use as const objects instead of enums
-- No any types — use unknown + type guards
-- Exported functions must have explicit return types
+- Follow CLAUDE.md conventions (immutable patterns, no any, no enums, explicit return types)
 
 Produce:
 1. Ordered implementation steps with exact file paths
@@ -97,13 +66,9 @@ Produce:
 
 ## Phase 2: Types First
 
-Before writing any logic, define or update the TypeScript types in `src/types/`.
+Define or update types in `src/types/`. Follow CLAUDE.md TypeScript rules.
 
-- No `any` — use `unknown` and narrow with type guards
-- No enums — use `as const` objects + union types
-- Exported types must have explicit names (no anonymous inline types)
-
-Run: `npm run typecheck` — must pass with zero errors before continuing.
+Run `npm run typecheck` — must pass with zero errors before continuing.
 
 **Commit**: `feat: add types for <feature>`
 
@@ -117,10 +82,6 @@ Write failing tests **before any implementation**. All test files in `src/lib/` 
 // @vitest-environment node
 ```
 
-This prevents ESM/jsdom conflicts with CSS dependencies.
-
-Tests live in `src/lib/<module>/__tests__/<file>.test.ts`.
-
 Tests must cover:
 - Happy path
 - Null/undefined inputs
@@ -128,7 +89,7 @@ Tests must cover:
 - Boundary values
 - Error paths
 
-Run: `npm run test` — tests **must fail** at this point (confirms they are real tests, not vacuous passes).
+Run `npm run test` — tests **must fail** at this point (confirms they are real tests, not vacuous passes).
 
 **Commit**: `test: add failing tests for <feature>`
 
@@ -136,14 +97,9 @@ Run: `npm run test` — tests **must fail** at this point (confirms they are rea
 
 ## Phase 4: TDD — Green (Minimal Implementation)
 
-Write the minimal implementation to make all tests pass. No extra logic, no future-proofing.
+Write minimal implementation to make all tests pass. No extra logic, no future-proofing.
 
-- Business logic in `src/lib/` only — never in components or pages
-- Pure TypeScript with zero React/Next.js imports in `src/lib/`
-- Follow Supabase query pattern from CLAUDE.md if DB is involved
-- Validate all external input with Zod
-
-Run: `npm run test` — all tests **must pass**.
+Run `npm run test` — all tests **must pass**.
 
 **Commit**: `feat: implement <feature>`
 
@@ -151,9 +107,9 @@ Run: `npm run test` — all tests **must pass**.
 
 ## Phase 5: TDD — Refactor
 
-Improve the implementation without changing behavior. Remove duplication, improve names, extract helpers.
+Improve without changing behavior. Remove duplication, improve names, extract helpers.
 
-Run: `npm run test` — must still pass after every change.
+Run `npm run test` — must still pass after every change.
 
 **Commit**: `refactor: <what you improved>`
 
@@ -161,14 +117,14 @@ Run: `npm run test` — must still pass after every change.
 
 ## Phase 6: Coverage Gate
 
-Run: `npm run test:coverage`
+Run `npm run test:coverage`.
 
 **Required thresholds** for the module under development:
 - Lines: ≥ 80%
 - Branches: ≥ 70%
 - Functions: ≥ 80%
 
-If coverage is below threshold: write additional tests before continuing. **Do not proceed with failing coverage.**
+If below threshold, write additional tests before continuing. **Do not proceed with failing coverage.**
 
 Add a barrel export at `src/lib/<module>/index.ts` if it does not exist.
 
@@ -178,13 +134,9 @@ Add a barrel export at `src/lib/<module>/index.ts` if it does not exist.
 
 ## Phase 7: Wire Up (Components / Pages)
 
-If the feature requires UI:
-- Server Component by default — only add `"use client"` if the component needs event handlers, hooks, or browser APIs
-- Props interface named `ComponentNameProps`, exported
-- One component per file, filename matches component name (PascalCase.tsx)
-- No prop drilling more than 3 levels — extract to context or composition
+If the feature requires UI, follow `.claude/rules/react-nextjs-patterns.md`.
 
-Run: `npm run typecheck && npm run lint` — must pass.
+Run `npm run typecheck && npm run lint` — must pass.
 
 **Commit**: `feat: wire up <feature> UI`
 
@@ -195,45 +147,34 @@ Run: `npm run typecheck && npm run lint` — must pass.
 Invoke the `code-reviewer` subagent on all new/modified files.
 
 If the feature touches:
-- Authentication → also invoke `security-reviewer`
-- API routes → also invoke `security-reviewer`
+- Authentication or API routes → also invoke `security-reviewer`
 - Database schema or queries → also invoke `database-reviewer`
 
-Resolve all HIGH and MEDIUM severity findings before committing.
+Resolve all HIGH and MEDIUM severity findings before continuing.
 
 ---
 
 ## Phase 9: Final Gate
 
-Run the full CI check:
-
 ```bash
 npm run lint && npm run typecheck && npm run test:coverage && npm run build
 ```
 
-All four commands must exit with code 0. If any fail, fix before considering the feature done.
-
-**Commit**: `chore: final gate pass for <feature>`
+All four commands must exit with code 0. Fix any failures before considering the feature done.
 
 ---
 
 ## Phase 10: Completion
 
-Create a summary commit that closes the issue:
+Commit all remaining changes:
 
 ```bash
-git add <all new and modified files>
 git commit -m "feat: <feature summary>
 
-Implements #<issue-number>: <issue title>
-
-Files added:
-- <list each new file>
-
-Tests: <N> tests, 100% coverage on lib/<module>"
+Implements #<issue-number>: <issue title>"
 ```
 
-Then post a comment to the GitHub issue summarizing the work using `gh`:
+Post a comment to the GitHub issue:
 
 ```bash
 gh issue comment <issue-number> --repo <owner>/<repo> --body "$(cat <<'EOF'
@@ -245,19 +186,12 @@ gh issue comment <issue-number> --repo <owner>/<repo> --body "$(cat <<'EOF'
 <2-3 sentence summary of what the feature does and where the code lives>
 
 ### Files added
-- `<file path>` — <one-line description>
-- `<file path>` — <one-line description>
-
-### How to test
-\`\`\`bash
-npm run test                         # run all tests
-npm run test:coverage                # view coverage report
-\`\`\`
+- `<path>` — <one-line description>
 
 ### Coverage
-| Module | Statements | Branches | Functions | Lines |
-|--------|-----------|---------|-----------|-------|
-| `lib/<module>` | X% | X% | X% | X% |
+| Module | Lines | Branches | Functions |
+|--------|-------|----------|-----------|
+| `lib/<module>` | X% | X% | X% |
 
 ### How to review
 \`\`\`bash
@@ -268,24 +202,10 @@ EOF
 )"
 ```
 
-Finally, report back in the conversation:
+Report back in the conversation:
 1. Branch name
 2. Files created/modified (with line counts)
 3. Test count added
 4. Coverage % for the new module
-5. Any findings from code/security review and how they were resolved
-6. Commit history for this feature (`git log --oneline`)
-
----
-
-## Constraints
-
-- Never skip Phase 0 — it prevents the most common mid-run failures
-- Never skip Phase 3 (failing tests) — this is the most important phase
-- All `src/lib/` test files must start with `// @vitest-environment node`
-- Never use `select('*')` in Supabase queries — always name columns explicitly
-- Never add `"use client"` to a component that does not need interactivity
-- Never commit `.env.local` or any file containing secrets
-- Coverage must not drop below 80% lines from the baseline before this feature
-- No `any` types introduced — CI will catch these via strict TypeScript
-- Do not merge or push to `main` — leave on feature branch for PR review
+5. Findings from code/security review and how they were resolved
+6. Commit history (`git log --oneline`)

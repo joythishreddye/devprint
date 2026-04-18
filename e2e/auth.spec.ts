@@ -29,7 +29,7 @@ test.describe('Sign-up flow', () => {
     await expect(page.locator('p.text-red-600').first()).toBeVisible({ timeout: 10_000 });
   });
 
-  test('submitting valid new email shows check-your-email confirmation', async ({ page }) => {
+  test('submitting valid new email reaches a valid post-sign-up state', async ({ page }) => {
     if (!process.env.NEXT_PUBLIC_SUPABASE_URL || !process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY) {
       test.skip(true, 'Supabase env not configured — skipping live sign-up test');
       return;
@@ -37,17 +37,33 @@ test.describe('Sign-up flow', () => {
 
     await page.goto('/sign-up');
 
-    const uniqueEmail = `e2e+${Date.now()}@example.com`;
+    const uniqueEmail = `e2e+${Date.now()}@devprint-test.com`;
     await page.fill('input[name="display_name"]', 'E2E Test User');
     await page.fill('input[name="email"]', uniqueEmail);
     await page.fill('input[name="password"]', 'testpassword123');
     await page.getByRole('button', { name: 'Create account' }).click();
 
-    // Supabase requires email confirmation — expect the success state
-    await expect(page.getByRole('heading', { name: 'Check your email' })).toBeVisible({
-      timeout: 15_000,
-    });
-    await expect(page.getByRole('link', { name: 'Back to sign in' })).toBeVisible();
+    // Two valid outcomes depending on the Supabase project's email-confirmation setting:
+    //   1. Confirmation required  → stays on /sign-up showing "Check your email" heading
+    //   2. Auto-confirmed         → redirects to /wizard (session returned immediately)
+    // We wait for whichever arrives first, then assert the outcome is valid.
+    await Promise.race([
+      page
+        .getByRole('heading', { name: 'Check your email' })
+        .waitFor({ state: 'visible', timeout: 15_000 }),
+      page.waitForURL('**/wizard', { timeout: 15_000 }),
+    ]);
+
+    const currentUrl = page.url();
+
+    if (currentUrl.includes('/wizard')) {
+      // Auto-confirmed path: landed on wizard, sign-up succeeded
+      await expect(page).toHaveURL(/\/wizard/);
+    } else {
+      // Email-confirmation path: confirmation page shown
+      await expect(page.getByRole('heading', { name: 'Check your email' })).toBeVisible();
+      await expect(page.getByRole('link', { name: 'Back to sign in' })).toBeVisible();
+    }
   });
 });
 

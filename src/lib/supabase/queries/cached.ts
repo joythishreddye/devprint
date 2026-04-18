@@ -23,7 +23,7 @@ export const getCachedTechnologiesByCategory: (category: string) => Promise<Tech
     { tags: ['technologies'], revalidate: REVALIDATE_SECONDS },
   );
 
-/** Single technology by slug, cached with 'technologies' and slug-specific tags */
+/** Single technology by slug, cached with the 'technologies' tag */
 export const getCachedTechnologyBySlug: (slug: string) => Promise<Technology | null> =
   unstable_cache(
     (slug: string) => getTechnologyBySlug(slug),

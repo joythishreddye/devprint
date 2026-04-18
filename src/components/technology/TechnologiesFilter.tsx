@@ -44,11 +44,14 @@ export default function TechnologiesFilter({
             value={query}
             onChange={(e) => setQuery(e.target.value)}
             placeholder="Search technologies..."
+            aria-label="Search technologies by name or description"
             className="w-full max-w-xs rounded-lg border border-zinc-200 bg-zinc-50 px-4 py-2 text-sm text-zinc-900 placeholder-zinc-400 outline-none transition-colors focus:border-zinc-400 focus:bg-white focus:ring-1 focus:ring-zinc-300"
           />
-          <div className="flex flex-wrap gap-2">
+          <div role="group" aria-label="Filter by category" className="flex flex-wrap gap-2">
             <button
+              type="button"
               onClick={() => setActiveCategory('all')}
+              aria-pressed={activeCategory === 'all'}
               className={`rounded-full px-3.5 py-1.5 text-xs font-medium transition-colors ${
                 activeCategory === 'all'
                   ? 'bg-zinc-900 text-white'
@@ -60,7 +63,9 @@ export default function TechnologiesFilter({
             {categories.map((cat) => (
               <button
                 key={cat}
+                type="button"
                 onClick={() => setActiveCategory(cat)}
+                aria-pressed={activeCategory === cat}
                 className={`rounded-full px-3.5 py-1.5 text-xs font-medium transition-colors ${
                   activeCategory === cat
                     ? 'bg-zinc-900 text-white'
@@ -76,9 +81,19 @@ export default function TechnologiesFilter({
 
       {/* Results */}
       {filtered.length === 0 ? (
-        <p className="py-16 text-center text-sm text-zinc-500">
-          No technologies match your search.
-        </p>
+        <div className="flex flex-col items-center gap-3 rounded-xl border border-dashed border-zinc-300 py-16 text-center">
+          <p className="text-sm font-medium text-zinc-700">No technologies match your search</p>
+          <p className="text-sm text-zinc-500">
+            Try a different search term or clear the category filter.
+          </p>
+          <button
+            type="button"
+            onClick={() => { setQuery(''); setActiveCategory('all'); }}
+            className="mt-1 rounded-lg bg-zinc-900 px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-zinc-700"
+          >
+            Clear filters
+          </button>
+        </div>
       ) : (
         <>
           <p className="mb-5 text-xs font-medium text-zinc-400">

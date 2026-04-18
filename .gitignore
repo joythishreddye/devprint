@@ -44,6 +44,7 @@ yarn-error.log*
 
 # e2e
 /e2e-results/
+/e2e/.auth/
 
 # vercel
 .vercel

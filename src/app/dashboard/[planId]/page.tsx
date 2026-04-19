@@ -59,19 +59,27 @@ export default async function PlanDetailPage({ params }: PlanDetailPageProps) {
         <span className="text-zinc-600">{plan.name}</span>
       </div>
 
-      <div>
-        <h1 className="text-xl font-semibold text-zinc-900">{plan.name}</h1>
-        {plan.description && (
-          <p className="mt-1 text-sm text-zinc-500">{plan.description}</p>
-        )}
-        <p className="mt-1 text-xs text-zinc-400">
-          Created{' '}
-          {new Date(plan.created_at).toLocaleDateString('en-US', {
-            month: 'long',
-            day: 'numeric',
-            year: 'numeric',
-          })}
-        </p>
+      <div className="flex items-start justify-between gap-4">
+        <div>
+          <h1 className="text-xl font-semibold text-zinc-900">{plan.name}</h1>
+          {plan.description && (
+            <p className="mt-1 text-sm text-zinc-500">{plan.description}</p>
+          )}
+          <p className="mt-1 text-xs text-zinc-400">
+            Created{' '}
+            {new Date(plan.created_at).toLocaleDateString('en-US', {
+              month: 'long',
+              day: 'numeric',
+              year: 'numeric',
+            })}
+          </p>
+        </div>
+        <Link
+          href={`/wizard/edit/${plan.id}`}
+          className="shrink-0 rounded-lg border border-zinc-200 px-4 py-2 text-sm font-medium text-zinc-700 hover:border-zinc-300 hover:bg-zinc-50 transition-colors"
+        >
+          Edit plan
+        </Link>
       </div>
 
       {configResult ? (

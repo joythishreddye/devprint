@@ -33,14 +33,22 @@ export function PlanCard({ plan }: PlanCardProps) {
         <p className="text-sm leading-relaxed text-zinc-500 line-clamp-2">{plan.description}</p>
       )}
 
-      <div className="mt-auto flex items-center justify-between border-t border-zinc-100 pt-3">
+      <div className="mt-auto flex items-center justify-between gap-2 border-t border-zinc-100 pt-3">
         <span className="text-xs text-zinc-400">{formatDate(plan.created_at)}</span>
-        <Link
-          href={`/dashboard/${plan.id}`}
-          className="text-xs font-medium text-zinc-500 hover:text-zinc-900 transition-colors"
-        >
-          View configs →
-        </Link>
+        <div className="flex items-center gap-3">
+          <Link
+            href={`/wizard/edit/${plan.id}`}
+            className="text-xs font-medium text-zinc-400 hover:text-zinc-700 transition-colors"
+          >
+            Edit
+          </Link>
+          <Link
+            href={`/dashboard/${plan.id}`}
+            className="text-xs font-medium text-zinc-500 hover:text-zinc-900 transition-colors"
+          >
+            View configs →
+          </Link>
+        </div>
       </div>
     </div>
   );

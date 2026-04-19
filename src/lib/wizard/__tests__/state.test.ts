@@ -124,6 +124,13 @@ describe('goToStep', () => {
     goToStep(state, 5);
     expect(state.currentStepIndex).toBe(0);
   });
+
+  it('transitions from summary to steps phase', () => {
+    const state: WizardState = { ...createInitialState(), phase: WIZARD_PHASE.summary, currentStepIndex: TOTAL_STEPS - 1 };
+    const next = goToStep(state, 2);
+    expect(next.phase).toBe(WIZARD_PHASE.steps);
+    expect(next.currentStepIndex).toBe(2);
+  });
 });
 
 describe('goToNextStep', () => {

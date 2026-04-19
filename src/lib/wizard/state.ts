@@ -66,7 +66,8 @@ export function setSelection(
 
 export function goToStep(state: WizardState, index: number): WizardState {
   const clamped = Math.max(0, Math.min(index, TOTAL_STEPS - 1));
-  return { ...state, currentStepIndex: clamped };
+  // Always transition to steps phase so clicking Edit from summary navigates to the step
+  return { ...state, phase: WIZARD_PHASE.steps, currentStepIndex: clamped };
 }
 
 export function goToNextStep(state: WizardState): WizardState {

@@ -4,40 +4,30 @@ import { z } from 'zod';
 import { createServerClient } from '@/lib/supabase/server';
 import { mapWizardToProjectSelections } from '@/lib/wizard/mapper';
 import { generateAllConfigs } from '@/lib/generators/generate-config';
+import { wizardSelectionsSchema } from '@/lib/validators/wizard-schema';
+import { isGenerateConfigResult } from '@/types/generators';
 import type { ApiResponse } from '@/types/api';
 
-const selectionField = z.string().max(100).nullable();
+const planIdSchema = z.string().uuid();
 
-const wizardSelectionsSchema = z.object({
-  projectName: z.string().min(1, 'Project name is required').max(100),
-  description: z.string().max(500).default(''),
-  projectType: selectionField,
-  architecture: selectionField,
-  frontend: selectionField,
-  styling: selectionField,
-  backend: selectionField,
-  database: selectionField,
-  auth: selectionField,
-  hosting: selectionField,
-  cicd: selectionField,
-  testing: selectionField,
-});
+function parseSelectionsJson(
+  selectionsJson: string,
+): ReturnType<typeof wizardSelectionsSchema.safeParse> | null {
+  try {
+    const raw: unknown = JSON.parse(selectionsJson);
+    return wizardSelectionsSchema.safeParse(raw);
+  } catch {
+    return null;
+  }
+}
 
 export async function saveWizardPlan(
   selectionsJson: string,
 ): Promise<ApiResponse<{ planId: string }>> {
-  let parsed: ReturnType<typeof wizardSelectionsSchema.safeParse>;
-
-  try {
-    const raw: unknown = JSON.parse(selectionsJson);
-    parsed = wizardSelectionsSchema.safeParse(raw);
-  } catch {
-    return { success: false, error: 'Invalid selections format' };
-  }
-
+  const parsed = parseSelectionsJson(selectionsJson);
+  if (!parsed) return { success: false, error: 'Invalid selections format' };
   if (!parsed.success) {
-    const firstIssue = parsed.error.issues[0];
-    return { success: false, error: firstIssue?.message ?? 'Invalid selections' };
+    return { success: false, error: parsed.error.issues[0]?.message ?? 'Invalid selections' };
   }
 
   const supabase = await createServerClient();
@@ -63,6 +53,10 @@ export async function saveWizardPlan(
   });
 
   const configResult = generateAllConfigs(projectSelections);
+  if (!isGenerateConfigResult(configResult)) {
+    console.error('Invalid config result:', configResult);
+    return { success: false, error: 'Failed to generate configs. Please try again.' };
+  }
 
   const { data, error } = await supabase
     .from('project_plans')
@@ -79,6 +73,69 @@ export async function saveWizardPlan(
   if (error) {
     console.error('Failed to save wizard plan:', error);
     return { success: false, error: 'Failed to save plan. Please try again.' };
+  }
+
+  return { success: true, data: { planId: data.id } };
+}
+
+export async function updateWizardPlan(
+  planId: string,
+  selectionsJson: string,
+): Promise<ApiResponse<{ planId: string }>> {
+  const planIdResult = planIdSchema.safeParse(planId);
+  if (!planIdResult.success) return { success: false, error: 'Invalid plan ID' };
+
+  const parsed = parseSelectionsJson(selectionsJson);
+  if (!parsed) return { success: false, error: 'Invalid selections format' };
+  if (!parsed.success) {
+    return { success: false, error: parsed.error.issues[0]?.message ?? 'Invalid selections' };
+  }
+
+  const supabase = await createServerClient();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+  if (!user) return { success: false, error: 'Unauthorized' };
+
+  // Rate-limit updates the same way saves are rate-limited
+  const { count } = await supabase
+    .from('project_plans')
+    .select('id', { count: 'exact', head: true })
+    .eq('user_id', user.id)
+    .gte('updated_at', new Date(Date.now() - 60_000).toISOString());
+
+  if ((count ?? 0) >= 20) {
+    return { success: false, error: 'Too many updates recently. Please wait before trying again.' };
+  }
+
+  const projectSelections = mapWizardToProjectSelections({
+    phase: 'steps',
+    currentStepIndex: 0,
+    selections: parsed.data,
+  });
+
+  const configResult = generateAllConfigs(projectSelections);
+  if (!isGenerateConfigResult(configResult)) {
+    console.error('Invalid config result:', configResult);
+    return { success: false, error: 'Failed to generate configs. Please try again.' };
+  }
+
+  const { data, error } = await supabase
+    .from('project_plans')
+    .update({
+      name: parsed.data.projectName,
+      description: parsed.data.description || null,
+      selections: parsed.data,
+      config_data: configResult as unknown as Record<string, unknown>,
+    })
+    .eq('id', planIdResult.data)
+    .eq('user_id', user.id)
+    .select('id')
+    .single();
+
+  if (error) {
+    console.error('Failed to update wizard plan:', error);
+    return { success: false, error: 'Failed to update plan. Please try again.' };
   }
 
   return { success: true, data: { planId: data.id } };

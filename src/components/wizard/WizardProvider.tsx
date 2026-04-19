@@ -1,7 +1,8 @@
 'use client';
 
 import { createContext, useContext, useReducer } from 'react';
-import type { WizardState, WizardStepId } from '@/types/wizard';
+import type { WizardState, WizardStepId, WizardSelections } from '@/types/wizard';
+import { WIZARD_PHASE } from '@/types/wizard';
 import {
   createInitialState,
   setProjectInfo,
@@ -13,6 +14,7 @@ import {
 
 interface WizardContextValue {
   state: WizardState;
+  planId: string | null;
   handleSetProjectInfo: (name: string, description: string) => void;
   handleSetSelection: (stepId: WizardStepId, value: string) => void;
   handleGoToStep: (index: number) => void;
@@ -52,13 +54,23 @@ function wizardReducer(state: WizardState, action: WizardAction): WizardState {
 
 export interface WizardProviderProps {
   children: React.ReactNode;
+  initialSelections?: WizardSelections;
+  planId?: string | null;
 }
 
-export function WizardProvider({ children }: WizardProviderProps) {
-  const [state, dispatch] = useReducer(wizardReducer, undefined, createInitialState);
+export function WizardProvider({ children, initialSelections, planId = null }: WizardProviderProps) {
+  const [state, dispatch] = useReducer(
+    wizardReducer,
+    undefined,
+    () =>
+      initialSelections
+        ? { phase: WIZARD_PHASE.summary, currentStepIndex: 0, selections: initialSelections }
+        : createInitialState(),
+  );
 
   const value: WizardContextValue = {
     state,
+    planId: planId ?? null,
     handleSetProjectInfo: (name, description) =>
       dispatch({ type: 'SET_PROJECT_INFO', name, description }),
     handleSetSelection: (stepId, value) =>

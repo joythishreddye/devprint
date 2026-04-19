@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import { WizardProvider } from '@/components/wizard/WizardProvider';
 import { WizardShell } from '@/components/wizard/WizardShell';
 
 export const metadata: Metadata = {
@@ -7,5 +8,9 @@ export const metadata: Metadata = {
 };
 
 export default function WizardPage() {
-  return <WizardShell />;
+  return (
+    <WizardProvider>
+      <WizardShell />
+    </WizardProvider>
+  );
 }

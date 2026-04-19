@@ -27,3 +27,14 @@ export interface GenerateConfigResult {
   projectName: string;
   configs: GeneratedConfig[];
 }
+
+export function isGenerateConfigResult(value: unknown): value is GenerateConfigResult {
+  return (
+    typeof value === 'object' &&
+    value !== null &&
+    'projectName' in value &&
+    'configs' in value &&
+    typeof (value as Record<string, unknown>).projectName === 'string' &&
+    Array.isArray((value as Record<string, unknown>).configs)
+  );
+}

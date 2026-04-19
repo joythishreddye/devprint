@@ -4,7 +4,7 @@ A production-grade web application that helps developers make informed technolog
 
 **Built for:** CS 7180 (AI Assisted Coding) at Northeastern University  
 **Built with:** Claude Code, Next.js 16, TypeScript, Supabase, Tailwind CSS  
-**Deployed on:** [Vercel](https://devprint.vercel.app)
+**Deployed on:** [Vercel](https://devprint-delta.vercel.app/)
 
 ## Features
 

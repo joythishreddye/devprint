@@ -1,3 +1,4 @@
+import Link from 'next/link';
 import { compareTechnologies, generateComparisonSummary } from '@/lib/comparison';
 import { FIXTURE_TECHNOLOGIES, FIXTURE_TECHNOLOGIES_BY_SLUG } from '@/lib/comparison/fixtures';
 import { ComparisonClient } from '@/components/comparison/ComparisonClient';
@@ -89,9 +90,9 @@ export default async function ComparePage({ searchParams }: ComparePageProps): P
               ].map(({ a, b }, i) => (
                 <span key={`${a}-${b}`}>
                   {i > 0 && ' · '}
-                  <a href={`/compare?a=${a}&b=${b}`} className="text-blue-500 hover:underline">
+                  <Link href={`/compare?a=${a}&b=${b}`} className="text-zinc-600 hover:text-zinc-900 underline underline-offset-2">
                     {FIXTURE_TECHNOLOGIES_BY_SLUG[a]?.name} vs {FIXTURE_TECHNOLOGIES_BY_SLUG[b]?.name}
-                  </a>
+                  </Link>
                 </span>
               ))}
             </p>

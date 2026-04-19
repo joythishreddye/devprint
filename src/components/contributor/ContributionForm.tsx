@@ -3,6 +3,8 @@
 import { useState, useTransition } from 'react';
 import { submitContributionAction, editContributionAction } from '@/app/contributor/actions';
 import type { TechnologySubmissionInput } from '@/lib/validators/contribution';
+import Link from 'next/link';
+import { useToast } from '@/components/ui/Toast';
 
 export interface ContributionFormProps {
   initialData?: Partial<TechnologySubmissionInput> | null;
@@ -20,6 +22,7 @@ export function ContributionForm({ initialData, contributionId }: ContributionFo
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState(false);
   const [isPending, startTransition] = useTransition();
+  const { toast } = useToast();
 
   const [arrayFields, setArrayFields] = useState<Record<ArrayField, string>>({
     pros: toLines(initialData?.pros),
@@ -49,9 +52,15 @@ export function ContributionForm({ initialData, contributionId }: ContributionFo
         : await submitContributionAction(formData);
 
       if (!result.success) {
-        setError(result.error ?? 'Submission failed. Please try again.');
+        const msg = result.error ?? 'Submission failed. Please try again.';
+        setError(msg);
+        toast(msg, 'error');
         return;
       }
+      toast(
+        isEdit ? 'Contribution updated successfully.' : 'Technology submitted for review.',
+        'success',
+      );
       setSuccess(true);
       if (!isEdit) {
         form.reset();
@@ -67,12 +76,12 @@ export function ContributionForm({ initialData, contributionId }: ContributionFo
           {isEdit ? 'Contribution updated successfully.' : 'Technology submitted for review.'}
         </p>
         {isEdit && (
-          <a
+          <Link
             href="/contributor"
             className="mt-3 inline-block text-sm text-zinc-600 hover:text-zinc-900 transition-colors"
           >
             Back to submissions
-          </a>
+          </Link>
         )}
       </div>
     );
@@ -279,12 +288,12 @@ export function ContributionForm({ initialData, contributionId }: ContributionFo
               : 'Submit for review'}
         </button>
         {isEdit && (
-          <a
+          <Link
             href="/contributor"
             className="text-sm text-zinc-500 hover:text-zinc-900 transition-colors"
           >
             Cancel
-          </a>
+          </Link>
         )}
       </div>
     </form>

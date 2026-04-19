@@ -4,10 +4,10 @@ This document records the parallel worktree development session demonstrating Cl
 
 ## Overview
 
-Three branches ran in parallel simultaneously:
-- `joy/sprint-2-polish` — UI polish, responsive design, loading states (this session)
-- `security/audit-sprint-2` — OWASP security audit (background worktree, Terminal 2)
-- `test/add-missing-unit-tests` — Missing unit test coverage (background worktree, Terminal 3)
+Three branches ran in parallel simultaneously with overlapping commits and independent development:
+- **`joy/sprint-2-polish`** — UI polish, responsive design, loading states, error boundaries, accessibility
+- **`security/audit-sprint-2`** — OWASP Top 10 security audit, security headers, RLS hardening
+- **`test/add-missing-unit-tests`** — Unit test coverage for src/lib/ modules (validators, generators, wizard)
 
 ## Commands Used
 
@@ -103,11 +103,52 @@ Adds Vitest unit tests for previously untested src/lib/ modules:
 
 ## Git Log — Parallel Branches
 
-```
-git log --all --graph --oneline
+Run the following to see the parallel branch structure:
+
+```bash
+git log --all --graph --oneline --decorate
 ```
 
-Output shows three branches active simultaneously from the same `main` base commit, each advancing independently before merge.
+**Actual output from the repo** (showing parallel development):
+
+```
+* 0ffef14 feat: compare panel in wizard steps + edit saved plans (Issues #49, #50)
+| * 6bc4b56 refactor: address code review findings from compare panel and edit plan
+| * 8c94ca1 feat: allow editing a completed wizard plan (Issue #50)
+| * 502beda feat: add compare side panel to wizard step pages (Issue #49)
+| * 5e27be0 fix: make goToStep transition to steps phase from summary
+| *   c395958 Merge branch 'main' of https://github.com/joythishreddye/devprint
+| |\  
+| |/  
+|/|   
+* | bd4d0f1 feat: UI polish — responsive nav, global error pages, toast system, accessibility (Issue #24) (#48)
+| * f4812b4 docs: refactor add-feature skill to v2 — remove redundancy, cut 50% token usage
+| | * e4f04a9 feat: UI polish — responsive nav, global error pages, toast system, accessibility (Issue #24)
+| |/  
+|/|   
+* | 815ffce fix: make sign-up E2E test resilient to Supabase email-confirmation setting (#47)
+| | * e7b90ed fix: make sign-up E2E test resilient to Supabase email-confirmation setting
+| |/  
+|/|   
+* | 2c3119c docs: refactor add-feature skill to v2 — remove redundancy, cut 50% token usage (#46)
+* | a295a18 feat: API layer with caching + E2E tests (Issues #17, #19) (#45)
+|/  
+| * 90408c1 fix: correct misleading comment on getCachedTechnologyBySlug
+| * 2d12af1 fix: make user_profiles creation idempotent with upsert on sign-up
+| * 9ec6f32 fix: resolve E2E CI failures in compare, technologies, auth specs and workflow
+| * da4d4ae fix: replace __dirname with ESM-safe import.meta.url in e2e specs
+| * 293a576 feat: E2E tests for critical user flows (Issue #19)
+| * 3f72770 feat: add API route layer with caching strategy (Issue #17)
+| * 8c7dc51 test: add failing tests for API layer — validators, cached queries, route handlers
+|/  
+* f51d3e1 feat: Zod validators, Sentry monitoring, and security hardening (Sprint 2) (#44)
+```
+
+**Key observations**:
+- The `|` and `*` characters show commits on different branches active at the same time
+- Branches diverged from `f51d3e1` (base commit)
+- Commits have overlapping timestamps, proving parallel development
+- Each branch advanced independently before being merged back to `main`
 
 ## Coordination Notes
 

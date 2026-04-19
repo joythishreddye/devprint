@@ -9,8 +9,11 @@ export interface ContributionListProps {
 export function ContributionList({ contributions }: ContributionListProps) {
   if (contributions.length === 0) {
     return (
-      <div className="rounded-xl border border-zinc-200 bg-zinc-50 px-5 py-8 text-center">
-        <p className="text-sm text-zinc-500">No submissions yet. Use the form above to submit your first technology.</p>
+      <div className="flex flex-col items-center gap-2 rounded-xl border border-dashed border-zinc-300 bg-zinc-50 px-5 py-10 text-center">
+        <p className="text-sm font-medium text-zinc-700">No submissions yet</p>
+        <p className="text-sm text-zinc-500">
+          Use the form above to submit your first technology for review.
+        </p>
       </div>
     );
   }

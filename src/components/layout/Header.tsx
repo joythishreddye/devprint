@@ -1,8 +1,8 @@
 import Link from 'next/link';
+import MobileMenu from './MobileMenu';
 import SignOutButton from './SignOutButton';
 
 async function getUser() {
-  // Supabase env vars may be absent during build-time prerender
   if (
     !process.env.NEXT_PUBLIC_SUPABASE_URL ||
     !process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
@@ -24,14 +24,31 @@ async function getUser() {
 export default async function Header() {
   const user = await getUser();
 
+  const authLinks = user
+    ? [
+        { href: '/dashboard', label: 'Dashboard' },
+        { href: '/wizard', label: 'Wizard' },
+        { href: '/contributor', label: 'Contribute' },
+      ]
+    : [
+        { href: '/compare', label: 'Compare' },
+        { href: '/technologies', label: 'Technologies' },
+      ];
+
   return (
-    <header className="border-b border-zinc-200 bg-white">
+    <header className="relative border-b border-zinc-200 bg-white">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="flex h-14 items-center justify-between">
-          <Link href="/" className="text-sm font-semibold text-zinc-900">
+          <Link
+            href="/"
+            className="text-sm font-semibold text-zinc-900"
+            aria-label="DevPrint home"
+          >
             DevPrint
           </Link>
-          <nav className="flex items-center gap-4">
+
+          {/* Desktop nav */}
+          <nav aria-label="Main navigation" className="hidden sm:flex items-center gap-4">
             {user ? (
               <>
                 <Link
@@ -57,6 +74,18 @@ export default async function Header() {
             ) : (
               <>
                 <Link
+                  href="/compare"
+                  className="text-sm text-zinc-600 hover:text-zinc-900 transition-colors"
+                >
+                  Compare
+                </Link>
+                <Link
+                  href="/technologies"
+                  className="text-sm text-zinc-600 hover:text-zinc-900 transition-colors"
+                >
+                  Technologies
+                </Link>
+                <Link
                   href="/sign-in"
                   className="text-sm text-zinc-600 hover:text-zinc-900 transition-colors"
                 >
@@ -71,6 +100,9 @@ export default async function Header() {
               </>
             )}
           </nav>
+
+          {/* Mobile menu */}
+          <MobileMenu links={authLinks} isAuthenticated={!!user} />
         </div>
       </div>
     </header>

@@ -76,12 +76,15 @@ export async function signUp(_prevState: AuthState, formData: FormData): Promise
 
   const { error: profileError } = await supabase
     .from('user_profiles')
-    .insert({
-      id: data.user.id,
-      display_name: parsed.data.display_name,
-      role: 'developer',
-      avatar_url: null,
-    });
+    .upsert(
+      {
+        id: data.user.id,
+        display_name: parsed.data.display_name,
+        role: 'developer',
+        avatar_url: null,
+      },
+      { onConflict: 'id' }
+    );
 
   if (profileError) {
     console.error('Failed to create user profile:', profileError);

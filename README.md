@@ -183,8 +183,7 @@ DevPrint is deployed on Vercel with automatic preview deploys on every PR and pr
 
 ## Team
 
-- **Joy Thishevuri** — Full-stack development, CLI tooling, advanced AI integration
-- **Keeyon Hajjafar** — Backend architecture, security, monitoring
+Created by **Joythish Reddy Evuri** and **Keeyon Hajjafar**
 
 ## License
 

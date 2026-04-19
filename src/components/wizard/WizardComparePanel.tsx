@@ -13,7 +13,12 @@ export interface WizardComparePanelProps {
   onClose: () => void;
 }
 
-/** Derives a Technology-like object from a WizardOption so the comparison engine can score it. */
+/**
+ * Derives a Technology-like object from a WizardOption for the comparison engine.
+ * learning_curve, community_size, and maturity are heuristic approximations based
+ * on prose keywords and pros/cons counts — they produce relative scores for ranking
+ * two options within the same step, not absolute quality ratings.
+ */
 function buildTechnology(option: WizardOption, stepId: string): Technology {
   const prosText = option.pros.join(' ').toLowerCase();
   const consText = option.cons.join(' ').toLowerCase();

@@ -4,42 +4,29 @@ import { z } from 'zod';
 import { createServerClient } from '@/lib/supabase/server';
 import { mapWizardToProjectSelections } from '@/lib/wizard/mapper';
 import { generateAllConfigs } from '@/lib/generators/generate-config';
+import { wizardSelectionsSchema } from '@/lib/validators/wizard-schema';
 import type { ApiResponse } from '@/types/api';
 
 const planIdSchema = z.string().uuid();
 
-const selectionField = z.string().max(100).nullable();
-
-const wizardSelectionsSchema = z.object({
-  projectName: z.string().min(1, 'Project name is required').max(100),
-  description: z.string().max(500).default(''),
-  projectType: selectionField,
-  architecture: selectionField,
-  frontend: selectionField,
-  styling: selectionField,
-  backend: selectionField,
-  database: selectionField,
-  auth: selectionField,
-  hosting: selectionField,
-  cicd: selectionField,
-  testing: selectionField,
-});
+function parseSelectionsJson(
+  selectionsJson: string,
+): ReturnType<typeof wizardSelectionsSchema.safeParse> | null {
+  try {
+    const raw: unknown = JSON.parse(selectionsJson);
+    return wizardSelectionsSchema.safeParse(raw);
+  } catch {
+    return null;
+  }
+}
 
 export async function saveWizardPlan(
   selectionsJson: string,
 ): Promise<ApiResponse<{ planId: string }>> {
-  let parsed: ReturnType<typeof wizardSelectionsSchema.safeParse>;
-
-  try {
-    const raw: unknown = JSON.parse(selectionsJson);
-    parsed = wizardSelectionsSchema.safeParse(raw);
-  } catch {
-    return { success: false, error: 'Invalid selections format' };
-  }
-
+  const parsed = parseSelectionsJson(selectionsJson);
+  if (!parsed) return { success: false, error: 'Invalid selections format' };
   if (!parsed.success) {
-    const firstIssue = parsed.error.issues[0];
-    return { success: false, error: firstIssue?.message ?? 'Invalid selections' };
+    return { success: false, error: parsed.error.issues[0]?.message ?? 'Invalid selections' };
   }
 
   const supabase = await createServerClient();
@@ -93,17 +80,10 @@ export async function updateWizardPlan(
   const planIdResult = planIdSchema.safeParse(planId);
   if (!planIdResult.success) return { success: false, error: 'Invalid plan ID' };
 
-  let parsed: ReturnType<typeof wizardSelectionsSchema.safeParse>;
-  try {
-    const raw: unknown = JSON.parse(selectionsJson);
-    parsed = wizardSelectionsSchema.safeParse(raw);
-  } catch {
-    return { success: false, error: 'Invalid selections format' };
-  }
-
+  const parsed = parseSelectionsJson(selectionsJson);
+  if (!parsed) return { success: false, error: 'Invalid selections format' };
   if (!parsed.success) {
-    const firstIssue = parsed.error.issues[0];
-    return { success: false, error: firstIssue?.message ?? 'Invalid selections' };
+    return { success: false, error: parsed.error.issues[0]?.message ?? 'Invalid selections' };
   }
 
   const supabase = await createServerClient();
@@ -111,6 +91,17 @@ export async function updateWizardPlan(
     data: { user },
   } = await supabase.auth.getUser();
   if (!user) return { success: false, error: 'Unauthorized' };
+
+  // Rate-limit updates the same way saves are rate-limited
+  const { count } = await supabase
+    .from('project_plans')
+    .select('id', { count: 'exact', head: true })
+    .eq('user_id', user.id)
+    .gte('updated_at', new Date(Date.now() - 60_000).toISOString());
+
+  if ((count ?? 0) >= 20) {
+    return { success: false, error: 'Too many updates recently. Please wait before trying again.' };
+  }
 
   const projectSelections = mapWizardToProjectSelections({
     phase: 'steps',

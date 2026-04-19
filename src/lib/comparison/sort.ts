@@ -65,9 +65,10 @@ const CATEGORY_SCORE_FNS: Record<ComparisonCategory, (tech: Technology) => numbe
  * because CATEGORY_WEIGHTS sums to exactly 1.0.
  */
 function computeScore(tech: Technology): number {
-  const weightedSum = (Object.keys(CATEGORY_WEIGHTS) as ComparisonCategory[]).reduce(
-    (total, category) =>
-      total + CATEGORY_SCORE_FNS[category](tech) * CATEGORY_WEIGHTS[category],
+  const weightedSum = (
+    Object.entries(CATEGORY_WEIGHTS) as [ComparisonCategory, number][]
+  ).reduce(
+    (total, [category, weight]) => total + CATEGORY_SCORE_FNS[category](tech) * weight,
     0,
   );
   return normalizeScore(weightedSum);
@@ -116,9 +117,10 @@ export function sortTechnologies(
   }));
 
   // Sort a copy — never mutate the original
-  const sorted = [...scored].sort((a, b) =>
-    order === 'desc' ? b.score - a.score : a.score - b.score,
-  );
+  const comparator = order === 'desc'
+    ? (a: Omit<SortedTechnology, 'rank'>, b: Omit<SortedTechnology, 'rank'>) => b.score - a.score
+    : (a: Omit<SortedTechnology, 'rank'>, b: Omit<SortedTechnology, 'rank'>) => a.score - b.score;
+  const sorted = [...scored].sort(comparator);
 
   return assignRanks(sorted);
 }

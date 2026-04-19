@@ -6,6 +6,8 @@ import { mapWizardToProjectSelections } from '@/lib/wizard/mapper';
 import { generateAllConfigs } from '@/lib/generators/generate-config';
 import type { ApiResponse } from '@/types/api';
 
+const planIdSchema = z.string().uuid();
+
 const selectionField = z.string().max(100).nullable();
 
 const wizardSelectionsSchema = z.object({
@@ -79,6 +81,61 @@ export async function saveWizardPlan(
   if (error) {
     console.error('Failed to save wizard plan:', error);
     return { success: false, error: 'Failed to save plan. Please try again.' };
+  }
+
+  return { success: true, data: { planId: data.id } };
+}
+
+export async function updateWizardPlan(
+  planId: string,
+  selectionsJson: string,
+): Promise<ApiResponse<{ planId: string }>> {
+  const planIdResult = planIdSchema.safeParse(planId);
+  if (!planIdResult.success) return { success: false, error: 'Invalid plan ID' };
+
+  let parsed: ReturnType<typeof wizardSelectionsSchema.safeParse>;
+  try {
+    const raw: unknown = JSON.parse(selectionsJson);
+    parsed = wizardSelectionsSchema.safeParse(raw);
+  } catch {
+    return { success: false, error: 'Invalid selections format' };
+  }
+
+  if (!parsed.success) {
+    const firstIssue = parsed.error.issues[0];
+    return { success: false, error: firstIssue?.message ?? 'Invalid selections' };
+  }
+
+  const supabase = await createServerClient();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+  if (!user) return { success: false, error: 'Unauthorized' };
+
+  const projectSelections = mapWizardToProjectSelections({
+    phase: 'steps',
+    currentStepIndex: 0,
+    selections: parsed.data,
+  });
+
+  const configResult = generateAllConfigs(projectSelections);
+
+  const { data, error } = await supabase
+    .from('project_plans')
+    .update({
+      name: parsed.data.projectName,
+      description: parsed.data.description || null,
+      selections: parsed.data,
+      config_data: configResult as unknown as Record<string, unknown>,
+    })
+    .eq('id', planIdResult.data)
+    .eq('user_id', user.id)
+    .select('id')
+    .single();
+
+  if (error) {
+    console.error('Failed to update wizard plan:', error);
+    return { success: false, error: 'Failed to update plan. Please try again.' };
   }
 
   return { success: true, data: { planId: data.id } };

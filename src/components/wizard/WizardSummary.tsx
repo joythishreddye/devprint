@@ -4,17 +4,20 @@ import { useState, useTransition } from 'react';
 import { useWizard } from './WizardProvider';
 import { WIZARD_STEPS } from '@/lib/wizard/steps';
 import { isStepComplete } from '@/lib/wizard/state';
-import { saveWizardPlan } from '@/app/wizard/actions';
+import { saveWizardPlan, updateWizardPlan } from '@/app/wizard/actions';
 
 export function WizardSummary() {
-  const { state, handleGoToStep, handleBack } = useWizard();
+  const { state, handleGoToStep, handleBack, planId } = useWizard();
   const [error, setError] = useState<string | null>(null);
   const [isPending, startTransition] = useTransition();
 
   function handleSave() {
     setError(null);
     startTransition(async () => {
-      const result = await saveWizardPlan(JSON.stringify(state.selections));
+      const selectionsJson = JSON.stringify(state.selections);
+      const result = planId
+        ? await updateWizardPlan(planId, selectionsJson)
+        : await saveWizardPlan(selectionsJson);
       if (!result.success) {
         setError(result.error);
         return;
@@ -114,7 +117,7 @@ export function WizardSummary() {
               : 'bg-zinc-900 text-white hover:bg-zinc-700',
           ].join(' ')}
         >
-          {isPending ? 'Saving...' : 'Save & Generate Configs'}
+          {isPending ? 'Saving...' : planId ? 'Update & Regenerate Configs' : 'Save & Generate Configs'}
         </button>
       </div>
     </div>

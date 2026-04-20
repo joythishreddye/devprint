@@ -7,9 +7,6 @@ import { compareTechnologies } from '../compare-technologies';
 // ─── Shared fixtures ──────────────────────────────────────────────────────────
 
 const makeTech = (overrides: Partial<Technology> & { id: string; name: string; slug: string }): Technology => ({
-  id: overrides.id,
-  name: overrides.name,
-  slug: overrides.slug,
   category: 'frontend-framework',
   description: 'A test technology',
   logo_url: null,

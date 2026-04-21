@@ -14,7 +14,7 @@
 | **PR Number** | #45 |
 | **Title** | feat: API layer with caching + E2E tests (Issues #17, #19) |
 | **Author (Writer)** | khajjafar (Keeyon Hajjafar) |
-| **Reviewer** | joythishreddye (Joy Thishevuri) |
+| **Reviewer** | joythishreddye (Joythish Evuri) |
 | **Status** | Merged: 2026-04-18 00:11:45 |
 | **PR URL** | https://github.com/joythishreddye/devprint/pull/45 |
 
@@ -117,6 +117,6 @@ This shows the review loop working: reviewer found issue → writer fixed it →
 ## AI Disclosure
 
 - **Writer**: Claude Code (Keeyon Hajjafar's session, claude-sonnet-4-6)
-- **Reviewer**: Claude Code (Joy Thishevuri's session, claude-sonnet-4-6)
+- **Reviewer**: Claude Code (Joythish Evuri's session, claude-sonnet-4-6)
 - **Human oversight**: Both team members reviewed output before committing/approving
 - **AI disclosure in PR**: "🤖 Generated with Claude Code"

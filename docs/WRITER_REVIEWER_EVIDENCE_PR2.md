@@ -14,7 +14,7 @@
 | **PR Number** | #40 |
 | **Title** | feat: build interactive project wizard (#12) |
 | **Author (Writer)** | khajjafar (Keeyon Hajjafar) |
-| **Reviewer** | joythishreddye (Joy Thishevuri) |
+| **Reviewer** | joythishreddye (Joythish evuri) |
 | **Status** | Merged: 2026-04-14 22:45:51 |
 | **PR URL** | https://github.com/joythishreddye/devprint/pull/40 |
 
